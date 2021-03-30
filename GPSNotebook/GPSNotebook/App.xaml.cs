@@ -1,18 +1,15 @@
 ﻿using GPSNotebook.Services;
-using GPSNotebook.Views;
-using System;
+using Prism;
+using Prism.Ioc;
+using Prism.Unity;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace GPSNotebook
 {
-    public partial class App : Application
+    public partial class App : PrismApplication
     {
-
-        public App()
+        public App(IPlatformInitializer initializer = null) : base(initializer)
         {
-            InitializeComponent();
-
             DependencyService.Register<MockDataStore>();
             MainPage = new AppShell();
         }
@@ -23,6 +20,15 @@ namespace GPSNotebook
 
         protected override void OnSleep()
         {
+        }
+
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+        }
+
+        protected override void OnInitialized()
+        {
+            InitializeComponent();
         }
 
         protected override void OnResume()
