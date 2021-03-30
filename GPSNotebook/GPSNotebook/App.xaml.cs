@@ -1,4 +1,6 @@
 ﻿using GPSNotebook.Services;
+using GPSNotebook.Services.Authorization;
+using GPSNotebook.Services.Settings;
 using Prism;
 using Prism.Ioc;
 using Prism.Unity;
@@ -24,6 +26,8 @@ namespace GPSNotebook
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve<SettingsManager>());
+            containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
         }
 
         protected override void OnInitialized()
