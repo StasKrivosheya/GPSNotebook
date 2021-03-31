@@ -2,7 +2,7 @@
 
 namespace GPSNotebook.Services.Authorization
 {
-    class AuthorizationService : IAuthorizationService
+    public class AuthorizationService : IAuthorizationService
     {
         private readonly ISettingsManager _settingsManager;
 

@@ -1,6 +1,6 @@
 ﻿namespace GPSNotebook.Services.Authorization
 {
-    interface IAuthorizationService
+    public interface IAuthorizationService
     {
         bool IsAuthorized { get; }
 

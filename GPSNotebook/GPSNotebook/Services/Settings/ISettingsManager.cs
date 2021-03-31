@@ -1,6 +1,6 @@
 ﻿namespace GPSNotebook.Services.Settings
 {
-    interface ISettingsManager
+    public interface ISettingsManager
     {
         int RememberedUserId { get; set; }
 

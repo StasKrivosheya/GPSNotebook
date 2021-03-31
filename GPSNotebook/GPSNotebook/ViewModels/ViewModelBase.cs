@@ -3,7 +3,7 @@ using Prism.Navigation;
 
 namespace GPSNotebook.ViewModels
 {
-    class ViewModelBase : BindableBase, IInitialize, INavigatedAware, IDestructible
+    public class ViewModelBase : BindableBase, IInitialize, INavigatedAware, IDestructible
     {
         protected INavigationService NavigationService { get; private set; }
 
@@ -26,7 +26,7 @@ namespace GPSNotebook.ViewModels
 
         #region -- IInitialize Implementation --
 
-        public void Initialize(INavigationParameters parameters)
+        public virtual void Initialize(INavigationParameters parameters)
         {
         }
 
@@ -34,11 +34,11 @@ namespace GPSNotebook.ViewModels
 
         #region -- INavigatedAware Implementation --
 
-        public void OnNavigatedFrom(INavigationParameters parameters)
+        public virtual void OnNavigatedFrom(INavigationParameters parameters)
         {
         }
 
-        public void OnNavigatedTo(INavigationParameters parameters)
+        public virtual void OnNavigatedTo(INavigationParameters parameters)
         {
         }
 
@@ -47,7 +47,7 @@ namespace GPSNotebook.ViewModels
 
         #region -- IDestructible Implementation --
 
-        public void Destroy()
+        public virtual void Destroy()
         {
         }
 

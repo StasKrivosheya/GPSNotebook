@@ -2,7 +2,7 @@
 
 namespace GPSNotebook.Services.Settings
 {
-    class SettingsManager : ISettingsManager
+    public class SettingsManager : ISettingsManager
     {
         #region -- ISettingsManager Implementation --
 
