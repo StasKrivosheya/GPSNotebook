@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:resources="clr-namespace:GPSNotebook.Resources;assembly=GPSNotebook"
+             x:Class="GPSNotebook.Views.SignUpPage"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <StackLayout Padding="40">
+            <StackLayout VerticalOptions="CenterAndExpand">
+                <Entry Text="{Binding Mail}"
+                       Placeholder="{x:Static resources:Resource.MailPlaceholder}"/>
+
+                <Entry Text="{Binding Name}"
+                       Placeholder="{x:Static resources:Resource.NamePlaceholder}"/>
+
+                <Entry Text="{Binding Password}"
+                       Placeholder="{x:Static resources:Resource.PasswordPlaceholder}"
+                       IsPassword="True" />
+
+                <Entry Text="{Binding ConfirmPassword}"
+                       Placeholder="{x:Static resources:Resource.ConfirmPasswordPlaceholder}"
+                       IsPassword="True" />
+            </StackLayout>
+            <StackLayout VerticalOptions="CenterAndExpand">
+                <Button Command="{Binding SignUpCommand}"
+                        IsEnabled="{Binding IsEnabled}"
+                        Text="{x:Static resources:Resource.SignUpButton}"
+                        BackgroundColor="DarkOrange"
+                        BorderColor="Black"
+                        TextColor="Black"
+                        BorderWidth="1"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
