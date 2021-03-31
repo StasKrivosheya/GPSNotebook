@@ -123,6 +123,9 @@
   <data name="DifferentPasswordError" xml:space="preserve">
     <value>Passwords are different</value>
   </data>
+  <data name="HomePageTitle" xml:space="preserve">
+    <value>Map</value>
+  </data>
   <data name="InvalidMailMessage" xml:space="preserve">
     <value>Wrong Mail!</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="InvalidPasswordTitle" xml:space="preserve">
     <value>Invalid Password</value>
+  </data>
+  <data name="LogOutText" xml:space="preserve">
+    <value>Log Out</value>
   </data>
   <data name="MailPlaceholder" xml:space="preserve">
     <value>e-mail</value>

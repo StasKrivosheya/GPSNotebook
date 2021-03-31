@@ -8,6 +8,6 @@
 
         void Authorize(int id, string mail);
 
-        void UnAuthorized();
+        void UnAuthorize();
     }
 }

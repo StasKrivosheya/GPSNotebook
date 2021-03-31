@@ -23,7 +23,7 @@ namespace GPSNotebook.Services.Authorization
             _settingsManager.RememberedMail = mail;
         }
 
-        public void UnAuthorized()
+        public void UnAuthorize()
         {
             _settingsManager.RememberedUserId = -1;
             _settingsManager.RememberedMail = default;

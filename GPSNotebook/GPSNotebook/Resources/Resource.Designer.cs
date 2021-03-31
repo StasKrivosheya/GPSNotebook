@@ -79,6 +79,15 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Map.
+        /// </summary>
+        internal static string HomePageTitle {
+            get {
+                return ResourceManager.GetString("HomePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wrong Mail!.
         /// </summary>
         internal static string InvalidMailMessage {
@@ -111,6 +120,15 @@ namespace GPSNotebook.Resources {
         internal static string InvalidPasswordTitle {
             get {
                 return ResourceManager.GetString("InvalidPasswordTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log Out.
+        /// </summary>
+        internal static string LogOutText {
+            get {
+                return ResourceManager.GetString("LogOutText", resourceCulture);
             }
         }
         
