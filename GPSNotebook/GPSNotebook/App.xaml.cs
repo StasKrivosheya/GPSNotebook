@@ -1,5 +1,4 @@
-﻿using GPSNotebook.Services;
-using GPSNotebook.Services.Authorization;
+﻿using GPSNotebook.Services.Authorization;
 using GPSNotebook.Services.Settings;
 using Prism;
 using Prism.Ioc;
@@ -12,9 +11,9 @@ namespace GPSNotebook
     {
         public App(IPlatformInitializer initializer = null) : base(initializer)
         {
-            DependencyService.Register<MockDataStore>();
-            MainPage = new AppShell();
         }
+
+        #region -- Overrides --
 
         protected override void OnStart()
         {
@@ -26,8 +25,12 @@ namespace GPSNotebook
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            // Services
             containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve<SettingsManager>());
             containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
+
+            // Navigation
+            containerRegistry.RegisterForNavigation<NavigationPage>();
         }
 
         protected override void OnInitialized()
@@ -38,5 +41,7 @@ namespace GPSNotebook
         protected override void OnResume()
         {
         }
+
+        #endregion
     }
 }

@@ -25,7 +25,8 @@ namespace GPSNotebook.Services.Authorization
 
         public void UnAuthorized()
         {
-            throw new System.NotImplementedException();
+            _settingsManager.RememberedUserId = -1;
+            _settingsManager.RememberedMail = default;
         }
 
         #endregion
