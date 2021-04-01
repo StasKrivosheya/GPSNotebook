@@ -79,7 +79,7 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Map.
+        ///   Looks up a localized string similar to GPSNotebook.
         /// </summary>
         internal static string HomePageTitle {
             get {
@@ -142,6 +142,15 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Map.
+        /// </summary>
+        internal static string MapTabTitle {
+            get {
+                return ResourceManager.GetString("MapTabTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to name.
         /// </summary>
         internal static string NamePlaceholder {
@@ -165,6 +174,15 @@ namespace GPSNotebook.Resources {
         internal static string PasswordPlaceholder {
             get {
                 return ResourceManager.GetString("PasswordPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pins.
+        /// </summary>
+        internal static string PinsListTabTitle {
+            get {
+                return ResourceManager.GetString("PinsListTabTitle", resourceCulture);
             }
         }
         

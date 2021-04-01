@@ -124,7 +124,7 @@
     <value>Passwords are different</value>
   </data>
   <data name="HomePageTitle" xml:space="preserve">
-    <value>Map</value>
+    <value>GPSNotebook</value>
   </data>
   <data name="InvalidMailMessage" xml:space="preserve">
     <value>Wrong Mail!</value>
@@ -144,6 +144,9 @@
   <data name="MailPlaceholder" xml:space="preserve">
     <value>e-mail</value>
   </data>
+  <data name="MapTabTitle" xml:space="preserve">
+    <value>Map</value>
+  </data>
   <data name="NamePlaceholder" xml:space="preserve">
     <value>name</value>
   </data>
@@ -152,6 +155,9 @@
   </data>
   <data name="PasswordPlaceholder" xml:space="preserve">
     <value>password</value>
+  </data>
+  <data name="PinsListTabTitle" xml:space="preserve">
+    <value>Pins</value>
   </data>
   <data name="RegisterFailedMessage" xml:space="preserve">
     <value>Such User already exists</value>

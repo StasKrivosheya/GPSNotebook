@@ -1,27 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:GPSNotebook.Views;assembly=GPSNotebook"
              xmlns:resource="clr-namespace:GPSNotebook.Resources;assembly=GPSNotebook"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
-             mc:Ignorable="d"
              x:Class="GPSNotebook.Views.HomePage"
-             Title="{Binding Title}">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Command="{Binding LogOutCommand}"                                     
-                     Text="{x:Static resource:Resource.LogOutText}"
-                     IconImageSource="ic_exit_to_app.png"
-                     Order="Primary"/>
-    </ContentPage.ToolbarItems>
+             Title="{x:Static resource:Resource.HomePageTitle}">
 
-    <ContentPage.Content>
-        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <maps:Map x:Name="map" VerticalOptions="FillAndExpand"></maps:Map>
-        </Grid>
-    </ContentPage.Content>
-</ContentPage>
+    <TabbedPage.Children>
+        <views:MapTab/>
+        <views:PinsListTab/>
+    </TabbedPage.Children>
+</TabbedPage>
