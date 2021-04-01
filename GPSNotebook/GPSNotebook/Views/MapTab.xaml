@@ -11,20 +11,13 @@
              x:Class="GPSNotebook.Views.MapTab"
              Title="{x:Static resource:Resource.MapTabTitle}">
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Command="{Binding LogOutCommand}"                                     
-                     Text="{x:Static resource:Resource.LogOutText}"
-                     IconImageSource="ic_exit_to_app.png"
-                     Order="Primary"/>
-    </ContentPage.ToolbarItems>
-
     <ContentPage.Content>
         <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <googleMaps:Map x:Name="map" VerticalOptions="FillAndExpand"></googleMaps:Map>
+            <googleMaps:Map x:Name="MainMap" VerticalOptions="FillAndExpand"></googleMaps:Map>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

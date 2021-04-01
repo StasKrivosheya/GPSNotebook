@@ -97,6 +97,8 @@ namespace GPSNotebook.ViewModels
 
         private async void ExecuteSignInCommand()
         {
+            Mail = Mail.Trim();
+
             var query = await _userService.GetItemAsync(u =>
                 u.Mail.Equals(Mail) && u.Password.Equals(Password));
 

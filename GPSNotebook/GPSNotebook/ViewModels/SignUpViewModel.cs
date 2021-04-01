@@ -88,6 +88,9 @@ namespace GPSNotebook.ViewModels
         {
             if (Password == ConfirmPassword)
             {
+                Mail = Mail.Trim();
+                Name = Name.Trim();
+
                 var loginValid = StringValidator.Validate(Mail, StringValidator.Mail);
                 var passwordValid = StringValidator.Validate(Password, StringValidator.Password);
 

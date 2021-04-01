@@ -7,7 +7,7 @@ namespace GPSNotebook.Validators
         #region --- Private Constants ---
 
         private const string MAIL_REGEX =
-            @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
+            @"^[\w\.]+@([\w-]+\.)+[\w-]{2,4}$";
 
         // accepts string with at least one lowercase, one uppercase and one digit,
         // total length is from 8 to 16
