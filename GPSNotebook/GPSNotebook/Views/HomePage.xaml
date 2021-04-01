@@ -3,6 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:GPSNotebook.Views;assembly=GPSNotebook"
              xmlns:resource="clr-namespace:GPSNotebook.Resources;assembly=GPSNotebook"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+             android:TabbedPage.ToolbarPlacement="Bottom"
+             android:TabbedPage.IsSwipePagingEnabled="True"
              x:Class="GPSNotebook.Views.HomePage"
              Title="{x:Static resource:Resource.HomePageTitle}">
     <TabbedPage.ToolbarItems>
@@ -12,7 +15,7 @@
                      Order="Primary"/>
     </TabbedPage.ToolbarItems>
     <TabbedPage.Children>
-        <views:MapTab/>
-        <views:PinsListTab/>
+        <views:MapTab IconImageSource="pic_maps.png" />
+        <views:PinsListTab IconImageSource="pic_pins.png" />
     </TabbedPage.Children>
 </TabbedPage>

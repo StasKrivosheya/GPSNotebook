@@ -163,4 +163,10 @@
   <ItemGroup>
     <BundleResource Include="Resources\ic_exit_to_app%403x.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pic_maps.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pic_pins.png" />
+  </ItemGroup>
 </Project>
