@@ -44,6 +44,8 @@ namespace GPSNotebook
             containerRegistry.RegisterForNavigation<SignInPage, SignInViewModel>();
             containerRegistry.RegisterForNavigation<SignUpPage, SignUpViewModel>();
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
+            containerRegistry.RegisterForNavigation<MapTab, MapTabViewModel>();
+            containerRegistry.RegisterForNavigation<PinsListTab, PinsListViewModel>();
         }
 
         protected override async void OnInitialized()
@@ -52,7 +54,7 @@ namespace GPSNotebook
 
             if (AuthorizationService.IsAuthorized)
             {
-                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(HomePage)}");
+                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(HomePage)}?selectedTab={nameof(MapTab)}");
             }
             else
             {

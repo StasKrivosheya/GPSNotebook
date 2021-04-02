@@ -2,22 +2,19 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:resource="clr-namespace:GPSNotebook.Resources;assembly=GPSNotebook"
-             xmlns:googleMaps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
-             
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:controls="clr-namespace:GPSNotebook.Controls;assembly=GPSNotebook"
              x:Class="GPSNotebook.Views.MapTab"
              Title="{x:Static resource:Resource.MapTabTitle}">
-
     <ContentPage.Content>
         <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <googleMaps:Map x:Name="MainMap" VerticalOptions="FillAndExpand"></googleMaps:Map>
+            <controls:BindableGoogleMap VerticalOptions="FillAndExpand" PinsSource="{Binding PinsList}"/>
+
         </Grid>
     </ContentPage.Content>
 </ContentPage>

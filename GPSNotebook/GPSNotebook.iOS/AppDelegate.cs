@@ -24,12 +24,12 @@ namespace GPSNotebook.iOS
 
             Xamarin.FormsGoogleMaps.Init("AIzaSyCafdZhtBWz_aXJPtz9gdJoL6w8ghfmiJg");
 
-            LoadApplication(new App(new iOSInitializer()));
+            LoadApplication(new App(new IOsInitializer()));
 
             return base.FinishedLaunching(app, options);
         }
 
-        public class iOSInitializer : IPlatformInitializer
+        public class IOsInitializer : IPlatformInitializer
         {
             public void RegisterTypes(IContainerRegistry containerRegistry)
             {

@@ -15,7 +15,6 @@ namespace GPSNotebook.ViewModels
         #region -- Public Properties --
 
         private string _title;
-
         public string Title
         {
             get => _title;
@@ -43,7 +42,6 @@ namespace GPSNotebook.ViewModels
         }
 
         #endregion
-
 
         #region -- IDestructible Implementation --
 
