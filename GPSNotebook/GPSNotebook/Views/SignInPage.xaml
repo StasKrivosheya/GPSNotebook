@@ -14,14 +14,35 @@
                        IsPassword="True" />
             </StackLayout>
             <StackLayout VerticalOptions="CenterAndExpand">
-                <Button Command="{Binding SignInCommand}"
-                        IsEnabled="{Binding IsButtonEnabled}"
-                        Text="{x:Static resources:Resource.SignInButton}"
-                        TextColor="Black"
-                        BorderColor="Black"
-                        BorderWidth="1"
-                        BackgroundColor="DarkOrange"/>
-
+                <Frame
+                    IsEnabled="{Binding IsButtonEnabled}"
+                    BackgroundColor="Orange"
+                    BorderColor="Black"
+                    CornerRadius="5"
+                    HasShadow="True"
+                    Padding="15">
+                    <Frame.Style>
+                        <Style TargetType="Frame">
+                            <Style.Triggers>
+                                <Trigger TargetType="Frame" Property="IsEnabled" Value="False">
+                                    <Setter Property="BackgroundColor" Value="#FFCD73"></Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Frame.Style>
+                    <Frame.Content>
+                        <Label
+                            VerticalOptions="FillAndExpand"
+                            Text="{x:Static resources:Resource.SignInButton}"
+                            TextTransform="Uppercase"
+                            TextColor="Black"
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"/>
+                    </Frame.Content>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SignInCommand}"/>
+                    </Frame.GestureRecognizers>
+                </Frame>
                 <Label HorizontalOptions="CenterAndExpand"
                        Margin="10"
                        Text="{x:Static resources:Resource.SignUpLink}"
