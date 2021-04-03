@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:resource="clr-namespace:GPSNotebook.Resources;assembly=GPSNotebook"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:controls="clr-namespace:GPSNotebook.Controls;assembly=GPSNotebook"
+             x:Class="GPSNotebook.Views.MapTab"
+             Title="{x:Static resource:Resource.MapTabTitle}">
+    <ContentPage.Content>
+        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <controls:BindableGoogleMap VerticalOptions="FillAndExpand" PinsSource="{Binding PinsList}"/>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

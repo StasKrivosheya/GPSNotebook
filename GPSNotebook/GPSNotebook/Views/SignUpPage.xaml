@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:resources="clr-namespace:GPSNotebook.Resources;assembly=GPSNotebook"
+             x:Class="GPSNotebook.Views.SignUpPage"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <StackLayout Padding="40">
+            <StackLayout VerticalOptions="CenterAndExpand">
+                <Entry Text="{Binding Mail}"
+                       Placeholder="{x:Static resources:Resource.MailPlaceholder}"/>
+
+                <Entry Text="{Binding Name}"
+                       Placeholder="{x:Static resources:Resource.NamePlaceholder}"/>
+
+                <Entry Text="{Binding Password}"
+                       Placeholder="{x:Static resources:Resource.PasswordPlaceholder}"
+                       IsPassword="True" />
+
+                <Entry Text="{Binding ConfirmPassword}"
+                       Placeholder="{x:Static resources:Resource.ConfirmPasswordPlaceholder}"
+                       IsPassword="True" />
+            </StackLayout>
+            <StackLayout VerticalOptions="CenterAndExpand">
+                <Frame
+                IsEnabled="{Binding IsEnabled}"
+                BackgroundColor="Orange"
+                BorderColor="Black"
+                CornerRadius="5"
+                HasShadow="True"
+                Padding="15">
+                <Frame.Style>
+                    <Style TargetType="Frame">
+                        <Style.Triggers>
+                            <Trigger TargetType="Frame" Property="IsEnabled" Value="False">
+                                <Setter Property="BackgroundColor" Value="#FFCD73"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Frame.Style>
+                <Frame.Content>
+                    <Label
+                        VerticalOptions="FillAndExpand"
+                        Text="{x:Static resources:Resource.SignUpButton}"
+                        TextTransform="Uppercase"
+                        TextColor="Black"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center"/>
+                </Frame.Content>
+                <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SignUpCommand}"/>
+                </Frame.GestureRecognizers>
+                </Frame>
+                <!--<Button Command="{Binding SignUpCommand}"
+                        IsEnabled="{Binding IsEnabled}"
+                        Text="{x:Static resources:Resource.SignUpButton}"
+                        BackgroundColor="DarkOrange"
+                        BorderColor="Black"
+                        TextColor="Black"
+                        BorderWidth="1"/>-->
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
