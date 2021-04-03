@@ -21,7 +21,7 @@ namespace GPSNotebook.Controls
         }
 
         public static readonly BindableProperty PinsSourceProperty = BindableProperty.Create(
-                                                         propertyName: "PinsSource",
+                                                         propertyName: nameof(PinsSource),
                                                          returnType: typeof(ObservableCollection<Pin>),
                                                          declaringType: typeof(BindableGoogleMap),
                                                          defaultValue: null,

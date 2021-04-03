@@ -2,9 +2,9 @@
 
 namespace GPSNotebook.ViewModels
 {
-    public class PinsListViewModel : ViewModelBase
+    public class PinsListTabViewModel : ViewModelBase
     {
-        public PinsListViewModel(INavigationService navigationService)
+        public PinsListTabViewModel(INavigationService navigationService)
             : base(navigationService)
         {
         }

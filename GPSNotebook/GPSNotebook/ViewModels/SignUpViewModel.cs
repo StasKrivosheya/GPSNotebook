@@ -115,7 +115,7 @@ namespace GPSNotebook.ViewModels
                         Password = Password
                     };
 
-                    var result = await _userService.InsertItemAsync(userModel);
+                    var result = await _userService.InsertUserAsync(userModel);
 
                     if (result == -1)
                     {

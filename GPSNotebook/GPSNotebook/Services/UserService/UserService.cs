@@ -20,32 +20,32 @@ namespace GPSNotebook.Services.UserService
 
         #region --- IUserService Implementation ---
 
-        public Task<List<UserModel>> GetItemsAsync()
+        public Task<List<UserModel>> GetUsersListAsync()
         {
             return _repository.GetItemsAsync<UserModel>();
         }
 
-        public Task<UserModel> GetItemAsync(int id)
+        public Task<UserModel> GetUserAsync(int id)
         {
             return _repository.GetItemAsync<UserModel>(id);
         }
 
-        public Task<UserModel> GetItemAsync(Expression<Func<UserModel, bool>> predicate)
+        public Task<UserModel> GetUserAsync(Expression<Func<UserModel, bool>> predicate)
         {
             return _repository.GetItemAsync(predicate);
         }
 
-        public Task<int> InsertItemAsync(UserModel item)
+        public Task<int> InsertUserAsync(UserModel item)
         {
             return _repository.InsertItemAsync(item);
         }
 
-        public Task<int> UpdateItemAsync(UserModel item)
+        public Task<int> UpdateUserAsync(UserModel item)
         {
             return _repository.UpdateItemAsync(item);
         }
 
-        public Task<int> DeleteItemAsync(UserModel item)
+        public Task<int> DeleteUserAsync(UserModel item)
         {
             return _repository.DeleteItemAsync(item);
         }

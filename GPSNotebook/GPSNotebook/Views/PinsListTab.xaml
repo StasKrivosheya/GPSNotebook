@@ -2,6 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:resource="clr-namespace:GPSNotebook.Resources;assembly=GPSNotebook"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNotebook.Views.PinsListTab"
              Title="{x:Static resource:Resource.PinsListTabTitle}">
     <ContentPage.Content>
