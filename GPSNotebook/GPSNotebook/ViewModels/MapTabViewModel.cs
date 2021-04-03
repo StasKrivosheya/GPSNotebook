@@ -1,8 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using GPSNotebook.Services.Authorization;
+using GPSNotebook.Services.PinService;
 using Prism.Navigation;
-using Xamarin.Essentials;
 using Xamarin.Forms.GoogleMaps;
-using GoogleMap = Xamarin.Forms.GoogleMaps.Map;
 
 namespace GPSNotebook.ViewModels
 {
@@ -11,15 +12,18 @@ namespace GPSNotebook.ViewModels
 
     public class MapTabViewModel : ViewModelBase
     {
-        public MapTabViewModel(
-            INavigationService navigationService)
+        private readonly IPinService _pinService;
+        private readonly IAuthorizationService _authorizationService;
+
+        public MapTabViewModel(INavigationService navigationService,
+            IPinService pinService,
+            IAuthorizationService authorizationService)
             : base(navigationService)
         {
-            PinsList = new ObservableCollection<Pin>
-            {
-                new Pin {Label = "Pin1", Position = new Position(0, 0)},
-                new Pin {Label = "Rome", Position = new Position(41.902782, 12.496366)}
-            };
+            _pinService = pinService;
+            _authorizationService = authorizationService;
+
+            UpdatePinsCollection();
         }
 
         #region -- Public properties --
@@ -34,34 +38,28 @@ namespace GPSNotebook.ViewModels
 
         #endregion
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
-        {
-            base.OnNavigatedTo(parameters);
+        #region -- Private Helpers --
 
+        private async void UpdatePinsCollection()
+        {
+            var pinModels = await _pinService.GetPinsListAsync(
+                pin => pin.UserId == _authorizationService.GetCurrentUserId);
+
+            List<Pin> pins = new List<Pin>();
+
+            foreach (var pinModel in pinModels)
+            {
+                pins.Add(new Pin
+                {
+                    Position = new Position(double.Parse(pinModel.Latitude), double.Parse(pinModel.Longitude)),
+                    IsVisible = pinModel.IsFavorite,
+                    Label = pinModel.Name
+                });
+            }
+
+            PinsList = new ObservableCollection<Pin>(pins);
         }
 
-        public override void Initialize(INavigationParameters parameters)
-        {
-            base.Initialize(parameters);
-        }
-
-        #region -- TMP SandBox --
-
-        private GoogleMap _mainMap;
-        public GoogleMap MainMap
-        {
-            get => _mainMap;
-            set => SetProperty(ref _mainMap, value);
-        }
-
-        async void NavigateToLocation()
-        {
-            await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-            MainMap.MyLocationEnabled = true;
-            var position = await Geolocation.GetLocationAsync();
-            MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude),
-                Distance.FromMiles(1)));
-        }
         #endregion
     }
 }
