@@ -1,9 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using GPSNotebook.Models;
 using GPSNotebook.Services.Authorization;
 using GPSNotebook.Services.PinService;
+using GPSNotebook.Views;
 using Prism.Navigation;
+using Prism.Navigation.TabbedPages;
+using Xamarin.Essentials;
 using Xamarin.Forms.GoogleMaps;
+using GoogleMap = Xamarin.Forms.GoogleMaps.Map;
 
 namespace GPSNotebook.ViewModels
 {
@@ -22,7 +27,7 @@ namespace GPSNotebook.ViewModels
         {
             _pinService = pinService;
             _authorizationService = authorizationService;
-
+            NavigationService.SelectTabAsync(nameof(PinsListTab));
             UpdatePinsCollection();
         }
 
@@ -53,13 +58,44 @@ namespace GPSNotebook.ViewModels
                 {
                     Position = new Position(double.Parse(pinModel.Latitude), double.Parse(pinModel.Longitude)),
                     IsVisible = pinModel.IsFavorite,
-                    Label = pinModel.Name
+                    Label = pinModel.Name,
+                    Address = pinModel.Description
                 });
             }
 
             PinsList = new ObservableCollection<Pin>(pins);
         }
 
+        #endregion
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+        }
+
+        public override void Initialize(INavigationParameters parameters)
+        {
+            base.Initialize(parameters);
+        }
+
+        #region -- TMP SandBox --
+
+        private GoogleMap _mainMap;
+        public GoogleMap MainMap
+        {
+            get => _mainMap;
+            set => SetProperty(ref _mainMap, value);
+        }
+
+        async void NavigateToLocation()
+        {
+            await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+            MainMap.MyLocationEnabled = true;
+            var position = await Geolocation.GetLocationAsync();
+            MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude),
+                Distance.FromMiles(1)));
+        }
         #endregion
     }
 }
