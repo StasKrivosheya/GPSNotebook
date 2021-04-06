@@ -70,11 +70,29 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        internal static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Passwords are different.
         /// </summary>
         internal static string DifferentPasswordError {
             get {
                 return ResourceManager.GetString("DifferentPasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        internal static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
             }
         }
         
@@ -156,6 +174,15 @@ namespace GPSNotebook.Resources {
         internal static string NamePlaceholder {
             get {
                 return ResourceManager.GetString("NamePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No pins added..
+        /// </summary>
+        internal static string NoPinsText {
+            get {
+                return ResourceManager.GetString("NoPinsText", resourceCulture);
             }
         }
         
