@@ -169,4 +169,13 @@
   <ItemGroup>
     <BundleResource Include="Resources\pic_pins.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_add%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_add%403x.png" />
+  </ItemGroup>
 </Project>
