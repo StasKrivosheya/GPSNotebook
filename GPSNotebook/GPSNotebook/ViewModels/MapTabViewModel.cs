@@ -1,21 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using GPSNotebook.Models;
 using GPSNotebook.Services.Authorization;
 using GPSNotebook.Services.PinService;
-using GPSNotebook.Views;
 using Prism.Navigation;
-using Prism.Navigation.TabbedPages;
-using Xamarin.Essentials;
 using Xamarin.Forms.GoogleMaps;
-using GoogleMap = Xamarin.Forms.GoogleMaps.Map;
 
 namespace GPSNotebook.ViewModels
 {
     // --- contains lots of tmp stuff just for debug or trying  ---
     // --- will be replaced with useful code in further commits ---
 
-    public class MapTabViewModel : ViewModelBase
+    public class MapTabViewModel : TabViewModelBase
     {
         private readonly IPinService _pinService;
         private readonly IAuthorizationService _authorizationService;
@@ -27,18 +22,30 @@ namespace GPSNotebook.ViewModels
         {
             _pinService = pinService;
             _authorizationService = authorizationService;
-            NavigationService.SelectTabAsync(nameof(PinsListTab));
+
             UpdatePinsCollection();
         }
 
         #region -- Public properties --
 
-        private ObservableCollection<Pin> _pinsList;
-
-        public ObservableCollection<Pin> PinsList
+        private CameraPosition _myCameraPosition;
+        public CameraPosition MyCameraPosition
         {
-            get => _pinsList;
-            set => SetProperty(ref _pinsList, value);
+            get => _myCameraPosition;
+            set => SetProperty(ref _myCameraPosition, value);
+        }
+        #endregion
+
+        #region -- Overrides --
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            if (parameters.TryGetValue(nameof(CameraPosition), out CameraPosition cameraPosition))
+            {
+                MyCameraPosition = cameraPosition;
+            }
         }
 
         #endregion
@@ -63,39 +70,9 @@ namespace GPSNotebook.ViewModels
                 });
             }
 
-            PinsList = new ObservableCollection<Pin>(pins);
+            PinsCollection = new ObservableCollection<Pin>(pins);
         }
 
-        #endregion
-
-        public override void OnNavigatedTo(INavigationParameters parameters)
-        {
-            base.OnNavigatedTo(parameters);
-
-        }
-
-        public override void Initialize(INavigationParameters parameters)
-        {
-            base.Initialize(parameters);
-        }
-
-        #region -- TMP SandBox --
-
-        private GoogleMap _mainMap;
-        public GoogleMap MainMap
-        {
-            get => _mainMap;
-            set => SetProperty(ref _mainMap, value);
-        }
-
-        async void NavigateToLocation()
-        {
-            await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-            MainMap.MyLocationEnabled = true;
-            var position = await Geolocation.GetLocationAsync();
-            MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude),
-                Distance.FromMiles(1)));
-        }
         #endregion
     }
 }

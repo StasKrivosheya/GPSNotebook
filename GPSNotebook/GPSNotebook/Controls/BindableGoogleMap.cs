@@ -1,122 +1,69 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
+using GoogleMap = Xamarin.Forms.GoogleMaps.Map;
 
 namespace GPSNotebook.Controls
 {
-    class BindableGoogleMap : Map
+    class BindableGoogleMap : GoogleMap
     {
-        //public BindableGoogleMap()
-        //{
-        //    PinsSource = new ObservableCollection<Pin>();
-        //    PinsSource.CollectionChanged += PinsSourceOnCollectionChanged;
-        //}
+        #region -- Private Constants --
 
-        //#region -- Public Properties --
+        private const double DEFAULT_CAMERA_ZOOM = 10d;
 
-        //public static readonly BindableProperty PinsSourceProperty = BindableProperty.Create(
-        //    propertyName: nameof(PinsSource),
-        //    returnType: typeof(ObservableCollection<Pin>),
-        //    declaringType: typeof(BindableGoogleMap),
-        //    defaultValue: null);
+        #endregion
 
-        //public static readonly BindableProperty MapSpanProperty =
-        //    BindableProperty.Create(
-        //        propertyName: nameof(MapSpan),
-        //        returnType: typeof(MapSpan),
-        //        declaringType: typeof(BindableGoogleMap),
-        //        defaultValue: null);
-
-        //public ObservableCollection<Pin> PinsSource
-        //{
-        //    get => (ObservableCollection<Pin>)GetValue(PinsSourceProperty);
-        //    set => SetValue(PinsSourceProperty, value);
-        //}
-
-        //public MapSpan MapSpan
-        //{
-        //    get => (MapSpan)GetValue(MapSpanProperty);
-        //    set => SetValue(MapSpanProperty, value);
-        //}
-
-        //#endregion
-
-        //#region -- Overrides --
-
-        //protected override void OnPropertyChanged(string propertyName = null)
-        //{
-        //    base.OnPropertyChanged(propertyName);
-
-        //    /*if (propertyName == MapSpanProperty.PropertyName)
-        //    {
-        //        MoveToRegion(MapSpan);
-        //    }*/
-        //}
-
-        //#endregion
-
-        //#region -- Private Helpers --
-
-        //private void PinsSourceOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        //{
-        //    UpdatePinsSource(this, sender as IEnumerable<Pin>);
-        //}
-
-        //private static void UpdatePinsSource(Map bindableMap, IEnumerable<Pin> newSource)
-        //{
-        //    bindableMap.Pins.Clear();
-        //    foreach (var pin in newSource)
-        //        bindableMap.Pins.Add(pin);
-        //}
-
-        //#endregion
         public BindableGoogleMap()
         {
             PinsSource = new ObservableCollection<Pin>();
             PinsSource.CollectionChanged += PinsSourceOnCollectionChanged;
+
+            // temp solution, Permission Service will be implemented soon
+            AskLocationPermissionAsync();
+
+            MyLocationEnabled = true;
             UiSettings.MyLocationButtonEnabled = true;
+            UiSettings.CompassEnabled = true;
         }
+
+        #region -- Public Properties --
+
+        public static readonly BindableProperty PinsSourceProperty = BindableProperty.Create(
+            propertyName: nameof(PinsSource),
+            returnType: typeof(ObservableCollection<Pin>),
+            declaringType: typeof(BindableGoogleMap),
+            defaultValue: null,
+            defaultBindingMode: BindingMode.TwoWay,
+            propertyChanged: PinsSourcePropertyChanged);
+
+        public static readonly BindableProperty MyCameraPositionProperty = BindableProperty.Create(
+            propertyName: nameof(MyCameraPosition),
+            returnType: typeof(CameraPosition),
+            declaringType: typeof(BindableGoogleMap),
+            defaultValue: null,
+            defaultBindingMode: BindingMode.TwoWay,
+            propertyChanged: MyCameraPositionPropertyChanged);
 
         public ObservableCollection<Pin> PinsSource
         {
-            get { return (ObservableCollection<Pin>)GetValue(PinsSourceProperty); }
-            set { SetValue(PinsSourceProperty, value); }
+            get => (ObservableCollection<Pin>)GetValue(PinsSourceProperty);
+            set => SetValue(PinsSourceProperty, value);
         }
 
-        public static readonly BindableProperty PinsSourceProperty = BindableProperty.Create(
-                                                         propertyName: nameof(PinsSource),
-                                                         returnType: typeof(ObservableCollection<Pin>),
-                                                         declaringType: typeof(BindableGoogleMap),
-                                                         defaultValue: null,
-                                                         defaultBindingMode: BindingMode.TwoWay,
-                                                         validateValue: null,
-                                                         propertyChanged: PinsSourcePropertyChanged);
-
-
-        public MapSpan MapSpan
+        public CameraPosition MyCameraPosition
         {
-            get { return (MapSpan)GetValue(MapSpanProperty); }
-            set { SetValue(MapSpanProperty, value); }
+            get => (CameraPosition)GetValue(MyCameraPositionProperty);
+            set => SetValue(MyCameraPositionProperty, value);
         }
 
-        public static readonly BindableProperty MapSpanProperty = BindableProperty.Create(
-                                                         propertyName: nameof(MapSpan),
-                                                         returnType: typeof(MapSpan),
-                                                         declaringType: typeof(BindableGoogleMap),
-                                                         defaultValue: null,
-                                                         defaultBindingMode: BindingMode.TwoWay,
-                                                         validateValue: null,
-                                                         propertyChanged: MapSpanPropertyChanged);
+        #endregion
 
-        private static void MapSpanPropertyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var thisInstance = bindable as BindableGoogleMap;
-            var newMapSpan = newValue as MapSpan;
+        #region -- Private Helpers --
 
-            thisInstance?.MoveToRegion(newMapSpan);
-        }
         private static void PinsSourcePropertyChanged(BindableObject bindable, object oldvalue, object newValue)
         {
             var thisInstance = bindable as BindableGoogleMap;
@@ -128,16 +75,38 @@ namespace GPSNotebook.Controls
 
             UpdatePinsSource(thisInstance, newPinsSource);
         }
+
+        private static async void MyCameraPositionPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+        {
+            if (bindable is BindableGoogleMap thisInstance)
+            {
+                var newCamPos = newvalue as CameraPosition;
+                newCamPos = new CameraPosition(newCamPos.Target, DEFAULT_CAMERA_ZOOM);
+                var a = CameraUpdateFactory.NewCameraPosition(newCamPos);
+                await thisInstance.AnimateCamera(a);
+            }
+        }
+
         private void PinsSourceOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             UpdatePinsSource(this, sender as IEnumerable<Pin>);
         }
 
-        private static void UpdatePinsSource(Map bindableMap, IEnumerable<Pin> newSource)
+        private static void UpdatePinsSource(GoogleMap bindableMap, IEnumerable<Pin> newSource)
         {
             bindableMap.Pins.Clear();
             foreach (var pin in newSource)
                 bindableMap.Pins.Add(pin);
         }
+
+        /// <summary>
+        /// Temp method until Permission Service Implemented
+        /// </summary>
+        private Task<PermissionStatus> AskLocationPermissionAsync()
+        {
+            return Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+        }
+
+        #endregion
     }
 }

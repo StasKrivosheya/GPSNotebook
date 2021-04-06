@@ -13,7 +13,8 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <controls:BindableGoogleMap VerticalOptions="FillAndExpand" PinsSource="{Binding PinsList}"/>
+            <controls:BindableGoogleMap VerticalOptions="FillAndExpand" PinsSource="{Binding PinsCollection}"
+                                        MyCameraPosition="{Binding MyCameraPosition}"/>
 
         </Grid>
     </ContentPage.Content>
