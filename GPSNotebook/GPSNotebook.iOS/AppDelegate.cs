@@ -24,6 +24,8 @@ namespace GPSNotebook.iOS
 
             Xamarin.FormsGoogleMaps.Init("AIzaSyCafdZhtBWz_aXJPtz9gdJoL6w8ghfmiJg");
 
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+
             LoadApplication(new App(new IOsInitializer()));
 
             return base.FinishedLaunching(app, options);
