@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:resource="clr-namespace:GPSNotebook.Resources;assembly=GPSNotebook"
+             xmlns:controls="clr-namespace:GPSNotebook.Controls;assembly=GPSNotebook"
+             x:Class="GPSNotebook.Views.AddEditPinPage"
+             Title="{Binding Title}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding SaveCommand}"
+                     Text="{x:Static resource:Resource.Save}"
+                     IconImageSource="ic_save.png"
+                     Order="Primary"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <!--Picture-->
+                <RowDefinition Height="Auto"/>
+                <!--Fields-->
+                <RowDefinition Height="Auto"/>
+                <!--Map-->
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <ImageButton Padding="10"
+                         Command="{Binding ImageTapCommand}"
+                         HeightRequest="100"
+                         Source="{Binding PinImagePath}"
+                         BackgroundColor="Transparent"/>
+
+            <StackLayout Grid.Row="1"
+                         Padding="25">
+                <Entry Text="{Binding Name}"
+                       Placeholder="{x:Static resource:Resource.NamePlaceholder}"/>
+
+                <Editor Text="{Binding Description}"
+                        Placeholder="{x:Static resource:Resource.Description}"/>
+
+
+                <Label Text="{x:Static resource:Resource.SetFavorite}"/>
+                <CheckBox IsChecked="{Binding IsFavorite}" />
+
+                <StackLayout Orientation="Vertical">
+                    <Entry Text="{Binding Latitude}"
+                           Placeholder="{x:Static resource:Resource.Latitude}"/>
+                    <Entry Text="{Binding Longitude}"
+                           Placeholder="{x:Static resource:Resource.Longitude}"/>
+                </StackLayout>
+            </StackLayout>
+
+            <controls:BindableGoogleMap Grid.Row="2"
+                                        VerticalOptions="FillAndExpand"
+                                        MapClickedCommand="{Binding MapClickedCommand}"
+                                        TappedPin="{Binding TappedPin}"/>
+
+            <!--
+            <StackLayout Grid.Row="1"
+                         Padding="40, 10">
+
+                <Entry Text="{Binding NickName}"
+                       Placeholder="{Binding Resources[NickNamePlaceholder]}"
+                       Style="{StaticResource EntryStyle}"/>
+                <Entry Text="{Binding Name}"
+                       Placeholder="{Binding Resources[NamePlaceholder]}"
+                       Style="{StaticResource EntryStyle}"/>
+            </StackLayout>
+
+            <StackLayout Grid.Row="2"
+                         Padding="40, 30">
+                <Editor Text="{Binding Description}"
+                        Placeholder="{Binding Resources[DescriptionPlaceholder]}"
+                        VerticalOptions="FillAndExpand"
+                        MaxLength="120"
+                        Style="{StaticResource EditorStyle}"/>
+            </StackLayout>-->
+        </Grid>
+    </ContentPage.Content>
+  
+</ContentPage>

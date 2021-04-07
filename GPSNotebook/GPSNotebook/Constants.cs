@@ -6,5 +6,7 @@ namespace GPSNotebook
     {
         public const string DATABASE_NAME = "gps_notebook.db";
         public static string DatabasePath => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
+        public const string DEFAULT_IMAGE_PLACEHOLDER = "pic_placeholder.png";
     }
 }

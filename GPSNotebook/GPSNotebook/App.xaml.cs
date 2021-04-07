@@ -48,6 +48,7 @@ namespace GPSNotebook
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
             containerRegistry.RegisterForNavigation<MapTab, MapTabViewModel>();
             containerRegistry.RegisterForNavigation<PinsListTab, PinsListTabViewModel>();
+            containerRegistry.RegisterForNavigation<AddEditPinPage, AddEditPinPageViewModel>();
         }
 
         protected override async void OnInitialized()

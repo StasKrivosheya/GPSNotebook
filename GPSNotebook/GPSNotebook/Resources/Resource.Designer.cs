@@ -61,6 +61,15 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add new Pin.
+        /// </summary>
+        internal static string AddPinTitle {
+            get {
+                return ResourceManager.GetString("AddPinTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to confirm password.
         /// </summary>
         internal static string ConfirmPasswordPlaceholder {
@@ -79,6 +88,15 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Passwords are different.
         /// </summary>
         internal static string DifferentPasswordError {
@@ -93,6 +111,24 @@ namespace GPSNotebook.Resources {
         internal static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit existing Pin.
+        /// </summary>
+        internal static string EditPinTitle {
+            get {
+                return ResourceManager.GetString("EditPinTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Favorite.
+        /// </summary>
+        internal static string Favorite {
+            get {
+                return ResourceManager.GetString("Favorite", resourceCulture);
             }
         }
         
@@ -142,11 +178,29 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Latitude.
+        /// </summary>
+        internal static string Latitude {
+            get {
+                return ResourceManager.GetString("Latitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log Out.
         /// </summary>
         internal static string LogOutText {
             get {
                 return ResourceManager.GetString("LogOutText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Longitude.
+        /// </summary>
+        internal static string Longitude {
+            get {
+                return ResourceManager.GetString("Longitude", resourceCulture);
             }
         }
         
@@ -169,7 +223,7 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to name.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         internal static string NamePlaceholder {
             get {
@@ -183,6 +237,15 @@ namespace GPSNotebook.Resources {
         internal static string NoPinsText {
             get {
                 return ResourceManager.GetString("NoPinsText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not favorite.
+        /// </summary>
+        internal static string NotFavorite {
+            get {
+                return ResourceManager.GetString("NotFavorite", resourceCulture);
             }
         }
         
@@ -228,6 +291,24 @@ namespace GPSNotebook.Resources {
         internal static string RegisterFailedTitle {
             get {
                 return ResourceManager.GetString("RegisterFailedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is favorite: .
+        /// </summary>
+        internal static string SetFavorite {
+            get {
+                return ResourceManager.GetString("SetFavorite", resourceCulture);
             }
         }
         

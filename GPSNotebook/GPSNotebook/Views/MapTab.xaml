@@ -10,10 +10,14 @@
     <ContentPage.Content>
         <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+            <SearchBar Grid.Row="0" Placeholder="mock" />
 
-            <controls:BindableGoogleMap VerticalOptions="FillAndExpand" PinsSource="{Binding PinsCollection}"
+            <controls:BindableGoogleMap Grid.Row="1"
+                                        VerticalOptions="FillAndExpand"
+                                        PinsSource="{Binding PinsCollection}"
                                         MyCameraPosition="{Binding MyCameraPosition}"/>
 
         </Grid>
