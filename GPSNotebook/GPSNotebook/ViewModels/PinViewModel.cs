@@ -1,10 +1,14 @@
-﻿using Xamarin.Forms.GoogleMaps;
+﻿using GPSNotebook.Models;
+using GPSNotebook.Resources;
+using Xamarin.Forms.GoogleMaps;
 
 namespace GPSNotebook.ViewModels
 {
     public class PinViewModel
     {
         public int Id { get; set; }
+
+        public string PinImagePath { get; set; }
 
         public int UserId { get; set; }
 
@@ -17,6 +21,8 @@ namespace GPSNotebook.ViewModels
         public string Longitude { get; private set; }
 
         public bool IsFavorite { get; set; }
+
+        public string IsFavoriteText => IsFavorite ? Resource.Favorite : Resource.NotFavorite;
 
         public Position Position
         {

@@ -2,9 +2,11 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
+//using GoogleMap = Xamarin.Forms.GoogleMaps.Clustering.ClusteredMap;
 using GoogleMap = Xamarin.Forms.GoogleMaps.Map;
 
 namespace GPSNotebook.Controls
@@ -13,7 +15,7 @@ namespace GPSNotebook.Controls
     {
         #region -- Private Constants --
 
-        private const double DEFAULT_CAMERA_ZOOM = 10d;
+        private const double DEFAULT_CAMERA_ZOOM = 15d;
 
         #endregion
 
@@ -24,6 +26,12 @@ namespace GPSNotebook.Controls
 
             // temp solution, Permission Service will be implemented soon
             AskLocationPermissionAsync();
+
+            MapClicked += OnMapClicked;
+
+            //CameraIdled += OnCameraIdled;
+            //MapLongClicked += OnMapLongClicked;
+            //PinClicked += OnPinClicked;
 
             MyLocationEnabled = true;
             UiSettings.MyLocationButtonEnabled = true;
@@ -48,6 +56,20 @@ namespace GPSNotebook.Controls
             defaultBindingMode: BindingMode.TwoWay,
             propertyChanged: MyCameraPositionPropertyChanged);
 
+        public static readonly BindableProperty MapClickedCommandProperty = BindableProperty.Create(
+            propertyName: nameof(MapClickedCommand),
+            returnType: typeof(ICommand),
+            declaringType: typeof(BindableGoogleMap),
+            defaultBindingMode: BindingMode.TwoWay,
+            defaultValue: null);
+
+        public static readonly BindableProperty TappedPinProperty = BindableProperty.Create(
+            propertyName: nameof(TappedPin),
+            returnType: typeof(Pin),
+            declaringType: typeof(BindableGoogleMap),
+            defaultValue: null,
+            defaultBindingMode: BindingMode.TwoWay);
+
         public ObservableCollection<Pin> PinsSource
         {
             get => (ObservableCollection<Pin>)GetValue(PinsSourceProperty);
@@ -60,30 +82,60 @@ namespace GPSNotebook.Controls
             set => SetValue(MyCameraPositionProperty, value);
         }
 
+        public ICommand MapClickedCommand
+        {
+            get => (ICommand) GetValue(MapClickedCommandProperty);
+            set => SetValue(MapClickedCommandProperty, value);
+        }
+
+        public Pin TappedPin
+        {
+            get => (Pin)GetValue(TappedPinProperty);
+            set => SetValue(TappedPinProperty, value);
+        }
+
+        #endregion
+
+        #region -- Overrides --
+
+        protected override void OnPropertyChanged(string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+
+            if (propertyName == nameof(TappedPin))
+            {
+                Pins.Clear();
+                Pins.Add(TappedPin);
+
+                CameraPosition cameraPosition = new CameraPosition(TappedPin.Position, DEFAULT_CAMERA_ZOOM);
+                var cameraUpdate = CameraUpdateFactory.NewCameraPosition(cameraPosition);
+                AnimateCamera(cameraUpdate);
+            }
+        }
+
         #endregion
 
         #region -- Private Helpers --
 
-        private static void PinsSourcePropertyChanged(BindableObject bindable, object oldvalue, object newValue)
+        private static void PinsSourcePropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var thisInstance = bindable as BindableGoogleMap;
             var newPinsSource = newValue as ObservableCollection<Pin>;
 
-            if (thisInstance == null ||
-                newPinsSource == null)
-                return;
-
-            UpdatePinsSource(thisInstance, newPinsSource);
+            if (thisInstance != null && newPinsSource != null)
+                UpdatePinsSource(thisInstance, newPinsSource);
         }
 
-        private static async void MyCameraPositionPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+        private static async void MyCameraPositionPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             if (bindable is BindableGoogleMap thisInstance)
             {
-                var newCamPos = newvalue as CameraPosition;
-                newCamPos = new CameraPosition(newCamPos.Target, DEFAULT_CAMERA_ZOOM);
-                var a = CameraUpdateFactory.NewCameraPosition(newCamPos);
-                await thisInstance.AnimateCamera(a);
+                if (newValue is CameraPosition newCamPos)
+                {
+                    newCamPos = new CameraPosition(newCamPos.Target, DEFAULT_CAMERA_ZOOM);
+                    var cameraUpdate = CameraUpdateFactory.NewCameraPosition(newCamPos);
+                    await thisInstance.AnimateCamera(cameraUpdate);
+                }
             }
         }
 
@@ -97,6 +149,22 @@ namespace GPSNotebook.Controls
             bindableMap.Pins.Clear();
             foreach (var pin in newSource)
                 bindableMap.Pins.Add(pin);
+        }
+
+        private void OnMapClicked(object sender, MapClickedEventArgs e)
+        {
+            if (MapClickedCommand != null)
+            {
+                //Pins.Clear();
+
+                //Pins.Add(new Pin
+                //{
+                //    Label = string.Empty,
+                //    Position = e.Point
+                //});
+
+                MapClickedCommand.Execute(e.Point);
+            }
         }
 
         /// <summary>
