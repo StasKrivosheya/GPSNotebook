@@ -1,4 +1,5 @@
 ﻿using GPSNotebook.Services.Authorization;
+using GPSNotebook.Services.Permissions;
 using GPSNotebook.Services.PinService;
 using GPSNotebook.Services.Repository;
 using GPSNotebook.Services.Settings;
@@ -40,6 +41,7 @@ namespace GPSNotebook
             containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
             containerRegistry.RegisterInstance<IUserService>(Container.Resolve<UserService>());
             containerRegistry.RegisterInstance<IPinService>(Container.Resolve<PinService>());
+            containerRegistry.RegisterInstance<IPermissionsService>(Container.Resolve<PermissionsService>());
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
