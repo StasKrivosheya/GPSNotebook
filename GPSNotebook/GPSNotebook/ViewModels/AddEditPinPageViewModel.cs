@@ -5,8 +5,10 @@ using Acr.UserDialogs;
 using GPSNotebook.Models;
 using GPSNotebook.Resources;
 using GPSNotebook.Services.Authorization;
+using GPSNotebook.Services.Permissions;
 using GPSNotebook.Services.PinService;
 using GPSNotebook.Validators;
+using Plugin.Permissions;
 using Prism.Commands;
 using Prism.Navigation;
 using Xamarin.Essentials;
@@ -19,16 +21,19 @@ namespace GPSNotebook.ViewModels
     {
         private readonly IAuthorizationService _authorizationService;
         private readonly IPinService _pinService;
+        private readonly IPermissionsService _permissionsService;
 
         private int PinId { get; set; }
 
         public AddEditPinPageViewModel(INavigationService navigationService,
             IAuthorizationService authorizationService,
-            IPinService pinService)
+            IPinService pinService,
+            IPermissionsService permissionsService)
             : base(navigationService)
         {
             _authorizationService = authorizationService;
             _pinService = pinService;
+            _permissionsService = permissionsService;
         }
 
         #region -- Public Properties
@@ -98,13 +103,22 @@ namespace GPSNotebook.ViewModels
             !string.IsNullOrEmpty(Latitude) &&
             !string.IsNullOrEmpty(Longitude);
 
+        private bool _wasLocationGranted;
+        public bool WasLocationGranted
+        {
+            get => _wasLocationGranted;
+            set => SetProperty(ref _wasLocationGranted, value);
+        }
+
         #endregion
 
         #region -- Overrides --
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
+
+            WasLocationGranted = await _permissionsService.TryGetPermissionAsync<LocationPermission>();
 
             if (parameters.TryGetValue(nameof(PinViewModel), out PinViewModel pinViewModel))
             {
@@ -211,36 +225,30 @@ namespace GPSNotebook.ViewModels
 
         private async void PickFromGallery()
         {
-            var status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
-            if (status != PermissionStatus.Granted)
+            if (await _permissionsService.TryGetPermissionAsync<StoragePermission>())
             {
-                await Permissions.RequestAsync<Permissions.StorageRead>();
-            }
+                var photo = await MediaPicker.PickPhotoAsync();
 
-            var photo = await MediaPicker.PickPhotoAsync();
-
-            if (photo != null)
-            {
-                PinImagePath = photo.FullPath;
+                if (photo != null)
+                {
+                    PinImagePath = photo.FullPath;
+                }
             }
         }
 
         private async void PickFromCamera()
         {
-            var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
-            if (status != PermissionStatus.Granted)
+            if (await _permissionsService.TryGetPermissionAsync<CameraPermission>())
             {
-                await Permissions.RequestAsync<Permissions.Camera>();
-            }
+                var photo = await MediaPicker.CapturePhotoAsync(new MediaPickerOptions()
+                {
+                    Title = $"ProfileBook{DateTime.Now:dd-MM-yyyy_hh.mm.ss}.jpg"
+                });
 
-            var photo = await MediaPicker.CapturePhotoAsync(new MediaPickerOptions()
-            {
-                Title = $"ProfileBook{DateTime.Now:dd-MM-yyyy_hh.mm.ss}.jpg"
-            });
-
-            if (photo != null)
-            {
-                PinImagePath = photo.FullPath;
+                if (photo != null)
+                {
+                    PinImagePath = photo.FullPath;
+                }
             }
         }
 

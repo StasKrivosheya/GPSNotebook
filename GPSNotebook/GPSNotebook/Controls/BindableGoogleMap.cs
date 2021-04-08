@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using GPSNotebook.Extensions;
 using GPSNotebook.ViewModels;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 //using GoogleMap = Xamarin.Forms.GoogleMaps.Clustering.ClusteredMap;
@@ -25,9 +23,6 @@ namespace GPSNotebook.Controls
         {
             PinsSource = new ObservableCollection<PinViewModel>();
             PinsSource.CollectionChanged += PinsSourceOnCollectionChanged;
-
-            // temp solution, Permission Service will be implemented soon
-            AskLocationPermissionAsync();
 
             MapClicked += OnMapClicked;
             //    will be needed soon
@@ -179,14 +174,6 @@ namespace GPSNotebook.Controls
                     MapClickedCommand.Execute(e.Point);
                 }
             }
-        }
-
-        /// <summary>
-        /// Temp method until Permission Service Implemented
-        /// </summary>
-        private Task<PermissionStatus> AskLocationPermissionAsync()
-        {
-            return Permissions.RequestAsync<Permissions.LocationWhenInUse>();
         }
 
         #endregion

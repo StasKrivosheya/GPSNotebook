@@ -126,6 +126,9 @@
   <data name="Camera" xml:space="preserve">
     <value>Camera</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="ChooseFrom" xml:space="preserve">
     <value>Choose from:</value>
   </data>
@@ -198,8 +201,14 @@
   <data name="OkText" xml:space="preserve">
     <value>Ok</value>
   </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Open Settings</value>
+  </data>
   <data name="PasswordPlaceholder" xml:space="preserve">
     <value>password</value>
+  </data>
+  <data name="PermissionNotGranted" xml:space="preserve">
+    <value>You denied this permission</value>
   </data>
   <data name="PinsListTabTitle" xml:space="preserve">
     <value>Pins</value>
@@ -236,5 +245,8 @@
   </data>
   <data name="SignUpTitle" xml:space="preserve">
     <value>Users Sign Up</value>
+  </data>
+  <data name="SuggestVisitingSettings" xml:space="preserve">
+    <value>Try one more time, or visit settings to manually allow denied permissions.</value>
   </data>
 </root>

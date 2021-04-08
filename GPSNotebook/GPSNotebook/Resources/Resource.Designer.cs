@@ -88,6 +88,15 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose from:.
         /// </summary>
         internal static string ChooseFrom {
@@ -304,11 +313,29 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open Settings.
+        /// </summary>
+        internal static string OpenSettings {
+            get {
+                return ResourceManager.GetString("OpenSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to password.
         /// </summary>
         internal static string PasswordPlaceholder {
             get {
                 return ResourceManager.GetString("PasswordPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You denied this permission.
+        /// </summary>
+        internal static string PermissionNotGranted {
+            get {
+                return ResourceManager.GetString("PermissionNotGranted", resourceCulture);
             }
         }
         
@@ -417,6 +444,15 @@ namespace GPSNotebook.Resources {
         internal static string SignUpTitle {
             get {
                 return ResourceManager.GetString("SignUpTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Try one more time, or visit settings to manually allow denied permissions..
+        /// </summary>
+        internal static string SuggestVisitingSettings {
+            get {
+                return ResourceManager.GetString("SuggestVisitingSettings", resourceCulture);
             }
         }
     }

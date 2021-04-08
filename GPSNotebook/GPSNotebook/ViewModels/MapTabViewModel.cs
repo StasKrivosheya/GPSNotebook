@@ -1,30 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Acr.UserDialogs;
 using GPSNotebook.Extensions;
 using GPSNotebook.Services.Authorization;
+using GPSNotebook.Services.Permissions;
 using GPSNotebook.Services.PinService;
+using Plugin.Permissions;
 using Prism.Navigation;
 using Xamarin.Forms.GoogleMaps;
 
 namespace GPSNotebook.ViewModels
 {
-    // --- contains lots of tmp stuff just for debug or trying  ---
-    // --- will be replaced with useful code in further commits ---
-
     public class MapTabViewModel : TabViewModelBase
     {
         private readonly IPinService _pinService;
         private readonly IAuthorizationService _authorizationService;
+        private readonly IPermissionsService _permissionsService;
 
         public MapTabViewModel(INavigationService navigationService,
             IPinService pinService,
-            IAuthorizationService authorizationService)
+            IAuthorizationService authorizationService,
+            IPermissionsService permissionsService)
             : base(navigationService)
         {
             _pinService = pinService;
             _authorizationService = authorizationService;
+            _permissionsService = permissionsService;
 
             IsActiveChanged += OnTabActivated;
         }
@@ -46,11 +47,20 @@ namespace GPSNotebook.ViewModels
         }
         #endregion
 
+        private bool _wasLocationGranted;
+        public bool WasLocationGranted
+        {
+            get => _wasLocationGranted;
+            set => SetProperty(ref _wasLocationGranted, value);
+        }
+
         #region -- Overrides --
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
+
+            WasLocationGranted = await _permissionsService.TryGetPermissionAsync<LocationPermission>();
 
             if (parameters.TryGetValue(nameof(CameraPosition), out CameraPosition cameraPosition))
             {

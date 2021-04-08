@@ -23,7 +23,6 @@ namespace GPSNotebook.ViewModels
         #region -- Public Properties --
 
         private DelegateCommand _logOutCommand;
-
         public DelegateCommand LogOutCommand =>
             _logOutCommand ?? (_logOutCommand = new DelegateCommand(ExecuteLogOutCommand));
 

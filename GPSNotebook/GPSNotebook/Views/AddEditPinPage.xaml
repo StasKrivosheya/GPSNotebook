@@ -55,7 +55,8 @@
             <controls:BindableGoogleMap Grid.Row="2"
                                         VerticalOptions="FillAndExpand"
                                         MapClickedCommand="{Binding MapClickedCommand}"
-                                        PinMarker="{Binding TappedPin}"/>
+                                        PinMarker="{Binding TappedPin}"
+                                        MyLocationEnabled="{Binding WasLocationGranted}"/>
         </Grid>
     </ContentPage.Content>
   

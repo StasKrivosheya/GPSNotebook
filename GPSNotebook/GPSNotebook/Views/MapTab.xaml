@@ -18,7 +18,8 @@
             <controls:BindableGoogleMap Grid.Row="1"
                                         VerticalOptions="FillAndExpand"
                                         PinsSource="{Binding PinsCollection}"
-                                        MyCameraPosition="{Binding MyCameraPosition}"/>
+                                        MyCameraPosition="{Binding MyCameraPosition}"
+                                        MyLocationEnabled="{Binding WasLocationGranted}"/>
 
         </Grid>
     </ContentPage.Content>
