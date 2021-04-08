@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using Prism;
 using Prism.Navigation;
-using Xamarin.Forms.GoogleMaps;
 
 namespace GPSNotebook.ViewModels
 {
@@ -17,8 +16,8 @@ namespace GPSNotebook.ViewModels
 
         #region -- Public Properties --
 
-        private ObservableCollection<Pin> _pinsCollection;
-        public ObservableCollection<Pin> PinsCollection
+        private ObservableCollection<PinViewModel> _pinsCollection;
+        public ObservableCollection<PinViewModel> PinsCollection
         {
             get => _pinsCollection;
             set => SetProperty(ref _pinsCollection, value);

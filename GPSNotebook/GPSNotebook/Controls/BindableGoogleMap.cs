@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using GPSNotebook.Extensions;
+using GPSNotebook.ViewModels;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
@@ -21,17 +23,17 @@ namespace GPSNotebook.Controls
 
         public BindableGoogleMap()
         {
-            PinsSource = new ObservableCollection<Pin>();
+            PinsSource = new ObservableCollection<PinViewModel>();
             PinsSource.CollectionChanged += PinsSourceOnCollectionChanged;
 
             // temp solution, Permission Service will be implemented soon
             AskLocationPermissionAsync();
 
             MapClicked += OnMapClicked;
-
-            //CameraIdled += OnCameraIdled;
-            //MapLongClicked += OnMapLongClicked;
-            //PinClicked += OnPinClicked;
+            //    will be needed soon
+            // CameraIdled += OnCameraIdled;
+            // MapLongClicked += OnMapLongClicked;
+            // PinClicked += OnPinClicked;
 
             MyLocationEnabled = true;
             UiSettings.MyLocationButtonEnabled = true;
@@ -42,7 +44,7 @@ namespace GPSNotebook.Controls
 
         public static readonly BindableProperty PinsSourceProperty = BindableProperty.Create(
             propertyName: nameof(PinsSource),
-            returnType: typeof(ObservableCollection<Pin>),
+            returnType: typeof(ObservableCollection<PinViewModel>),
             declaringType: typeof(BindableGoogleMap),
             defaultValue: null,
             defaultBindingMode: BindingMode.TwoWay,
@@ -63,16 +65,16 @@ namespace GPSNotebook.Controls
             defaultBindingMode: BindingMode.TwoWay,
             defaultValue: null);
 
-        public static readonly BindableProperty TappedPinProperty = BindableProperty.Create(
-            propertyName: nameof(TappedPin),
-            returnType: typeof(Pin),
+        public static readonly BindableProperty PinMarkerProperty = BindableProperty.Create(
+            propertyName: nameof(PinMarker),
+            returnType: typeof(PinViewModel),
             declaringType: typeof(BindableGoogleMap),
             defaultValue: null,
             defaultBindingMode: BindingMode.TwoWay);
 
-        public ObservableCollection<Pin> PinsSource
+        public ObservableCollection<PinViewModel> PinsSource
         {
-            get => (ObservableCollection<Pin>)GetValue(PinsSourceProperty);
+            get => (ObservableCollection<PinViewModel>)GetValue(PinsSourceProperty);
             set => SetValue(PinsSourceProperty, value);
         }
 
@@ -88,10 +90,10 @@ namespace GPSNotebook.Controls
             set => SetValue(MapClickedCommandProperty, value);
         }
 
-        public Pin TappedPin
+        public PinViewModel PinMarker
         {
-            get => (Pin)GetValue(TappedPinProperty);
-            set => SetValue(TappedPinProperty, value);
+            get => (PinViewModel)GetValue(PinMarkerProperty);
+            set => SetValue(PinMarkerProperty, value);
         }
 
         #endregion
@@ -102,12 +104,29 @@ namespace GPSNotebook.Controls
         {
             base.OnPropertyChanged(propertyName);
 
-            if (propertyName == nameof(TappedPin))
+            if (propertyName == nameof(PinsSource))
             {
-                Pins.Clear();
-                Pins.Add(TappedPin);
+                if (PinsSource != null)
+                {
+                    Pins.Clear();
 
-                CameraPosition cameraPosition = new CameraPosition(TappedPin.Position, DEFAULT_CAMERA_ZOOM);
+                    foreach (PinViewModel pin in PinsSource)
+                    {
+                        Pins.Add(pin.ToPin());
+                    }
+
+                }
+            }
+
+            if (propertyName == nameof(PinMarker))
+            {
+                var pinToShow = PinMarker.ToPin();
+                pinToShow.IsVisible = true;
+
+                Pins.Clear();
+                Pins.Add(pinToShow);
+
+                CameraPosition cameraPosition = new CameraPosition(PinMarker.Position, DEFAULT_CAMERA_ZOOM);
                 var cameraUpdate = CameraUpdateFactory.NewCameraPosition(cameraPosition);
                 AnimateCamera(cameraUpdate);
             }
@@ -120,7 +139,7 @@ namespace GPSNotebook.Controls
         private static void PinsSourcePropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var thisInstance = bindable as BindableGoogleMap;
-            var newPinsSource = newValue as ObservableCollection<Pin>;
+            var newPinsSource = newValue as ObservableCollection<PinViewModel>;
 
             if (thisInstance != null && newPinsSource != null)
                 UpdatePinsSource(thisInstance, newPinsSource);
@@ -141,29 +160,24 @@ namespace GPSNotebook.Controls
 
         private void PinsSourceOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            UpdatePinsSource(this, sender as IEnumerable<Pin>);
+            UpdatePinsSource(this, sender as IEnumerable<PinViewModel>);
         }
 
-        private static void UpdatePinsSource(GoogleMap bindableMap, IEnumerable<Pin> newSource)
+        private static void UpdatePinsSource(GoogleMap bindableMap, IEnumerable<PinViewModel> newSource)
         {
             bindableMap.Pins.Clear();
             foreach (var pin in newSource)
-                bindableMap.Pins.Add(pin);
+                bindableMap.Pins.Add(pin.ToPin());
         }
 
         private void OnMapClicked(object sender, MapClickedEventArgs e)
         {
             if (MapClickedCommand != null)
             {
-                //Pins.Clear();
-
-                //Pins.Add(new Pin
-                //{
-                //    Label = string.Empty,
-                //    Position = e.Point
-                //});
-
-                MapClickedCommand.Execute(e.Point);
+                if (MapClickedCommand.CanExecute(e.Point))
+                {
+                    MapClickedCommand.Execute(e.Point);
+                }
             }
         }
 

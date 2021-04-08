@@ -1,5 +1,4 @@
-﻿using GPSNotebook.Models;
-using GPSNotebook.Resources;
+﻿using GPSNotebook.Resources;
 using Xamarin.Forms.GoogleMaps;
 
 namespace GPSNotebook.ViewModels

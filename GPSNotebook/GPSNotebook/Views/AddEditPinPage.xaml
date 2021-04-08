@@ -18,11 +18,11 @@
     <ContentPage.Content>
         <Grid Margin="10">
             <Grid.RowDefinitions>
-                <!--Picture-->
+                <!-- Picture -->
                 <RowDefinition Height="Auto"/>
-                <!--Fields-->
+                <!-- Inputs -->
                 <RowDefinition Height="Auto"/>
-                <!--Map-->
+                <!-- Map -->
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -55,28 +55,7 @@
             <controls:BindableGoogleMap Grid.Row="2"
                                         VerticalOptions="FillAndExpand"
                                         MapClickedCommand="{Binding MapClickedCommand}"
-                                        TappedPin="{Binding TappedPin}"/>
-
-            <!--
-            <StackLayout Grid.Row="1"
-                         Padding="40, 10">
-
-                <Entry Text="{Binding NickName}"
-                       Placeholder="{Binding Resources[NickNamePlaceholder]}"
-                       Style="{StaticResource EntryStyle}"/>
-                <Entry Text="{Binding Name}"
-                       Placeholder="{Binding Resources[NamePlaceholder]}"
-                       Style="{StaticResource EntryStyle}"/>
-            </StackLayout>
-
-            <StackLayout Grid.Row="2"
-                         Padding="40, 30">
-                <Editor Text="{Binding Description}"
-                        Placeholder="{Binding Resources[DescriptionPlaceholder]}"
-                        VerticalOptions="FillAndExpand"
-                        MaxLength="120"
-                        Style="{StaticResource EditorStyle}"/>
-            </StackLayout>-->
+                                        PinMarker="{Binding TappedPin}"/>
         </Grid>
     </ContentPage.Content>
   

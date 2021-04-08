@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Acr.UserDialogs;
+using GPSNotebook.Extensions;
 using GPSNotebook.Services.Authorization;
 using GPSNotebook.Services.PinService;
 using Prism.Navigation;
@@ -23,10 +26,17 @@ namespace GPSNotebook.ViewModels
             _pinService = pinService;
             _authorizationService = authorizationService;
 
-            UpdatePinsCollection();
+            IsActiveChanged += OnTabActivated;
         }
 
         #region -- Public properties --
+
+        private ObservableCollection<PinViewModel> _pinsCollection;
+        public new ObservableCollection<PinViewModel> PinsCollection
+        {
+            get => _pinsCollection;
+            set => SetProperty(ref _pinsCollection, value);
+        }
 
         private CameraPosition _myCameraPosition;
         public CameraPosition MyCameraPosition
@@ -52,25 +62,29 @@ namespace GPSNotebook.ViewModels
 
         #region -- Private Helpers --
 
+        private void OnTabActivated(object sender, EventArgs e)
+        {
+            if (IsActive)
+            {
+                // лагает при переходе между табами
+                // если вызывать этот метод в конструкторе, то при первом запуске не лагает
+                UpdatePinsCollection();
+            }
+        }
+
         private async void UpdatePinsCollection()
         {
             var pinModels = await _pinService.GetPinsListAsync(
                 pin => pin.UserId == _authorizationService.GetCurrentUserId);
 
-            List<Pin> pins = new List<Pin>();
+            List<PinViewModel> pins = new List<PinViewModel>();
 
             foreach (var pinModel in pinModels)
             {
-                pins.Add(new Pin
-                {
-                    Position = new Position(double.Parse(pinModel.Latitude), double.Parse(pinModel.Longitude)),
-                    IsVisible = pinModel.IsFavorite,
-                    Label = pinModel.Name,
-                    Address = pinModel.Description
-                });
+                pins.Add(pinModel.ToPinViewModel());
             }
 
-            PinsCollection = new ObservableCollection<Pin>(pins);
+            PinsCollection = new ObservableCollection<PinViewModel>(pins);
         }
 
         #endregion
