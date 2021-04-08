@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
 using Acr.UserDialogs;
-using GPSNotebook.Extensions;
-using GPSNotebook.Models;
 using GPSNotebook.Resources;
+using GPSNotebook.Validators;
 using Prism.Commands;
 using Prism.Navigation;
 using Xamarin.Forms;
@@ -73,8 +72,8 @@ namespace GPSNotebook.ViewModels
 
         public ICommand MapClickedCommand => new Command<Position>(ExecuteMapClickedCommand);
 
-        private Pin _tappedPin;
-        public Pin TappedPin
+        private PinViewModel _tappedPin;
+        public PinViewModel TappedPin
         {
             get => _tappedPin;
             set => SetProperty(ref _tappedPin, value);
@@ -107,34 +106,34 @@ namespace GPSNotebook.ViewModels
             }
         }
 
-        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        protected override async void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
 
             if (args.PropertyName == nameof(Latitude) ||
                 args.PropertyName == nameof(Longitude))
             {
-                if (double.TryParse(Latitude, out double latitude) &&
-                    double.TryParse(Longitude, out double longitude))
+                var wereCoordinatesSet = Latitude != null &&
+                                         Longitude != null;
+
+                var wereCoordinatesCleared = Latitude == string.Empty ||
+                                             Longitude == string.Empty;
+
+                if (CoordinatesValidator.Validate(Latitude, CoordinatesValidator.Latitude) &&
+                    CoordinatesValidator.Validate(Longitude, CoordinatesValidator.Longitude))
                 {
-                    TappedPin = new Pin
+                    TappedPin = new PinViewModel
                     {
-                        Label = string.Empty,
-                        Position = new Position(latitude, longitude)
+                        Name = string.Empty,
+                        Position = new Position(double.Parse(Latitude), double.Parse(Longitude))
                     };
                 }
+                // there's no need to show this very alert while user holds backspace
+                else if (wereCoordinatesSet && !wereCoordinatesCleared)
+                {
+                    await UserDialogs.Instance.AlertAsync(Resource.InvalidCoordinates);
+                }
 
-                //if (Latitude != null && Longitude != null)
-                //{
-                //    if (Latitude != string.Empty && Longitude != string.Empty)
-                //    {
-                //        TappedPin = new Pin
-                //        {
-                //            Label = string.Empty,
-                //            Position = new Position(double.Parse(Latitude), double.Parse(Longitude))
-                //        };
-                //    }
-                //}
             }
         }
 
@@ -146,8 +145,6 @@ namespace GPSNotebook.ViewModels
         {
             Latitude = point.Latitude.ToString();
             Longitude = point.Longitude.ToString();
-
-            // set pin
         }
 
         private void ExecuteImageTapCommand()

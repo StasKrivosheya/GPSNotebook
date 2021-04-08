@@ -142,6 +142,15 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Wrong latitude or longitude!.
+        /// </summary>
+        internal static string InvalidCoordinates {
+            get {
+                return ResourceManager.GetString("InvalidCoordinates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wrong Mail!.
         /// </summary>
         internal static string InvalidMailMessage {

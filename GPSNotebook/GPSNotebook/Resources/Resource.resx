@@ -144,6 +144,9 @@
   <data name="HomePageTitle" xml:space="preserve">
     <value>GPSNotebook</value>
   </data>
+  <data name="InvalidCoordinates" xml:space="preserve">
+    <value>Wrong latitude or longitude!</value>
+  </data>
   <data name="InvalidMailMessage" xml:space="preserve">
     <value>Wrong Mail!</value>
   </data>
