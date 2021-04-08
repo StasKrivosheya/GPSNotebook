@@ -117,8 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddEditPinErrorAlert" xml:space="preserve">
+    <value>Please, input name and valid coordinates, or select point on map.</value>
+  </data>
   <data name="AddPinTitle" xml:space="preserve">
     <value>Add new Pin</value>
+  </data>
+  <data name="Camera" xml:space="preserve">
+    <value>Camera</value>
+  </data>
+  <data name="ChooseFrom" xml:space="preserve">
+    <value>Choose from:</value>
   </data>
   <data name="ConfirmPasswordPlaceholder" xml:space="preserve">
     <value>confirm password</value>
@@ -140,6 +149,9 @@
   </data>
   <data name="Favorite" xml:space="preserve">
     <value>Favorite</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Gallery</value>
   </data>
   <data name="HomePageTitle" xml:space="preserve">
     <value>GPSNotebook</value>

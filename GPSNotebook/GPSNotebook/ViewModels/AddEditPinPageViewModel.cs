@@ -1,10 +1,15 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows.Input;
 using Acr.UserDialogs;
+using GPSNotebook.Models;
 using GPSNotebook.Resources;
+using GPSNotebook.Services.Authorization;
+using GPSNotebook.Services.PinService;
 using GPSNotebook.Validators;
 using Prism.Commands;
 using Prism.Navigation;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 
@@ -12,9 +17,18 @@ namespace GPSNotebook.ViewModels
 {
     public class AddEditPinPageViewModel : ViewModelBase
     {
-        public AddEditPinPageViewModel(INavigationService navigationService)
+        private readonly IAuthorizationService _authorizationService;
+        private readonly IPinService _pinService;
+
+        private int PinId { get; set; }
+
+        public AddEditPinPageViewModel(INavigationService navigationService,
+            IAuthorizationService authorizationService,
+            IPinService pinService)
             : base(navigationService)
         {
+            _authorizationService = authorizationService;
+            _pinService = pinService;
         }
 
         #region -- Public Properties
@@ -79,6 +93,11 @@ namespace GPSNotebook.ViewModels
             set => SetProperty(ref _tappedPin, value);
         }
 
+        public bool IsAllInputsFilled =>
+            !string.IsNullOrEmpty(Name) &&
+            !string.IsNullOrEmpty(Latitude) &&
+            !string.IsNullOrEmpty(Longitude);
+
         #endregion
 
         #region -- Overrides --
@@ -91,6 +110,7 @@ namespace GPSNotebook.ViewModels
             {
                 Title = Resource.EditPinTitle;
 
+                PinId = pinViewModel.Id;
                 PinImagePath = pinViewModel.PinImagePath;
                 Name = pinViewModel.Name;
                 Description = pinViewModel.Description;
@@ -149,14 +169,79 @@ namespace GPSNotebook.ViewModels
 
         private void ExecuteImageTapCommand()
         {
-            // take photo or pick from gallery
-            UserDialogs.Instance.Alert(nameof(ExecuteImageTapCommand));
+            UserDialogs.Instance.ActionSheet(new ActionSheetConfig()
+                .SetTitle(Resource.ChooseFrom)
+                .Add(Resource.Camera, PickFromCamera, "ic_camera_alt_black.png")
+                .Add(Resource.Gallery, PickFromGallery, "ic_collections_black.png")
+            );
         }
 
-        private void ExecuteSaveCommand()
+        private async void ExecuteSaveCommand()
         {
-            // save pin to db and navigate to PinsListTab
-            UserDialogs.Instance.Alert(nameof(ExecuteSaveCommand));
+            if (IsAllInputsFilled)
+            {
+                var pinModel = new PinModel
+                {
+                    Id = PinId,
+                    UserId = _authorizationService.GetCurrentUserId,
+                    Name = Name,
+                    Description = Description,
+                    IsFavorite = IsFavorite,
+                    Latitude = Latitude,
+                    Longitude = Longitude,
+                    PinImagePath = PinImagePath
+                };
+
+                if (PinId == 0)
+                {
+                    await _pinService.InsertPinAsync(pinModel);
+                }
+                else
+                {
+                    await _pinService.UpdatePinAsync(pinModel);
+                }
+
+                await NavigationService.GoBackAsync();
+            }
+            else
+            {
+                await UserDialogs.Instance.AlertAsync(Resource.AddEditPinErrorAlert);
+            }
+        }
+
+        private async void PickFromGallery()
+        {
+            var status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
+            if (status != PermissionStatus.Granted)
+            {
+                await Permissions.RequestAsync<Permissions.StorageRead>();
+            }
+
+            var photo = await MediaPicker.PickPhotoAsync();
+
+            if (photo != null)
+            {
+                PinImagePath = photo.FullPath;
+            }
+        }
+
+        private async void PickFromCamera()
+        {
+            var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
+            if (status != PermissionStatus.Granted)
+            {
+                await Permissions.RequestAsync<Permissions.Camera>();
+            }
+
+            var photo = await MediaPicker.CapturePhotoAsync(new MediaPickerOptions()
+            {
+                Title = $"ProfileBook{DateTime.Now:dd-MM-yyyy_hh.mm.ss}.jpg"
+            });
+
+            if (photo != null)
+            {
+                PinImagePath = photo.FullPath;
+            }
         }
 
         #endregion

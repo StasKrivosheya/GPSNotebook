@@ -61,11 +61,38 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please, input name and valid coordinates, or select point on map..
+        /// </summary>
+        internal static string AddEditPinErrorAlert {
+            get {
+                return ResourceManager.GetString("AddEditPinErrorAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add new Pin.
         /// </summary>
         internal static string AddPinTitle {
             get {
                 return ResourceManager.GetString("AddPinTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Camera.
+        /// </summary>
+        internal static string Camera {
+            get {
+                return ResourceManager.GetString("Camera", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose from:.
+        /// </summary>
+        internal static string ChooseFrom {
+            get {
+                return ResourceManager.GetString("ChooseFrom", resourceCulture);
             }
         }
         
@@ -129,6 +156,15 @@ namespace GPSNotebook.Resources {
         internal static string Favorite {
             get {
                 return ResourceManager.GetString("Favorite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gallery.
+        /// </summary>
+        internal static string Gallery {
+            get {
+                return ResourceManager.GetString("Gallery", resourceCulture);
             }
         }
         
