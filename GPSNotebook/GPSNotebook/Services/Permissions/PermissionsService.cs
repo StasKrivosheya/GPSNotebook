@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Acr.UserDialogs;
 using GPSNotebook.Resources;
 using Plugin.Permissions;
@@ -25,7 +24,7 @@ namespace GPSNotebook.Services.Permissions
                 {
                     ConfirmConfig config = new ConfirmConfig
                     {
-                        Message = $"{Resource.PermissionNotGranted}: {typeof(T).Name}.\n{Resource.SuggestVisitingSettings}",
+                        Message = $"{ Resource.PermissionNotGranted }: { typeof(T).Name }.\n{ Resource.SuggestVisitingSettings }",
                         CancelText = Resource.Cancel,
                         OkText = Resource.OpenSettings
                     };

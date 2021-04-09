@@ -3,9 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
              x:Class="GPSNotebook.App">
-    <!--
-        Define global resources and styles here, that apply to all pages in your app.
-    -->
+    <!-- Define global resources and styles here, that apply to all pages in your app. -->
     <Application.Resources>
         <ResourceDictionary>
             <Color x:Key="Primary">#2196F3</Color>

@@ -76,8 +76,6 @@ namespace GPSNotebook.ViewModels
         {
             if (IsActive)
             {
-                // лагает при переходе между табами
-                // если вызывать этот метод в конструкторе, то при первом запуске не лагает
                 UpdatePinsCollection();
             }
         }

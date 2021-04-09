@@ -6,8 +6,10 @@ using GPSNotebook.Extensions;
 using GPSNotebook.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
-//using GoogleMap = Xamarin.Forms.GoogleMaps.Clustering.ClusteredMap;
 using GoogleMap = Xamarin.Forms.GoogleMaps.Map;
+
+// has bugs: shows pins with IsVisible = false
+// using GoogleMap = Xamarin.Forms.GoogleMaps.Clustering.ClusteredMap;
 
 namespace GPSNotebook.Controls
 {
@@ -24,15 +26,10 @@ namespace GPSNotebook.Controls
             PinsSource = new ObservableCollection<PinViewModel>();
             PinsSource.CollectionChanged += PinsSourceOnCollectionChanged;
 
-            MapClicked += OnMapClicked;
-            //    will be needed soon
-            // CameraIdled += OnCameraIdled;
-            // MapLongClicked += OnMapLongClicked;
-            // PinClicked += OnPinClicked;
-
-            MyLocationEnabled = true;
             UiSettings.MyLocationButtonEnabled = true;
             UiSettings.CompassEnabled = true;
+
+            MapClicked += OnMapClicked;
         }
 
         #region -- Public Properties --
@@ -115,15 +112,20 @@ namespace GPSNotebook.Controls
 
             if (propertyName == nameof(PinMarker))
             {
-                var pinToShow = PinMarker.ToPin();
-                pinToShow.IsVisible = true;
-
                 Pins.Clear();
-                Pins.Add(pinToShow);
 
-                CameraPosition cameraPosition = new CameraPosition(PinMarker.Position, DEFAULT_CAMERA_ZOOM);
-                var cameraUpdate = CameraUpdateFactory.NewCameraPosition(cameraPosition);
-                AnimateCamera(cameraUpdate);
+                var pinToShow = PinMarker.ToPin();
+
+                if (pinToShow != null)
+                {
+                    pinToShow.IsVisible = true;
+
+                    Pins.Add(pinToShow);
+
+                    CameraPosition cameraPosition = new CameraPosition(PinMarker.Position, DEFAULT_CAMERA_ZOOM);
+                    var cameraUpdate = CameraUpdateFactory.NewCameraPosition(cameraPosition);
+                    AnimateCamera(cameraUpdate);
+                }
             }
         }
 

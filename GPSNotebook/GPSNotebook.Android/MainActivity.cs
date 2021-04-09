@@ -23,7 +23,7 @@ namespace GPSNotebook.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
             UserDialogs.Init(this);
-            Xamarin.FormsGoogleMaps.Init(this, savedInstanceState); //Initialize GoogleMaps
+            Xamarin.FormsGoogleMaps.Init(this, savedInstanceState);
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true);
 
             LoadApplication(new App(new AndroidInitializer()));

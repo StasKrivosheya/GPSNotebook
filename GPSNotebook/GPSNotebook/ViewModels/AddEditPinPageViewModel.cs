@@ -114,11 +114,9 @@ namespace GPSNotebook.ViewModels
 
         #region -- Overrides --
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
+        public override void Initialize(INavigationParameters parameters)
         {
-            base.OnNavigatedTo(parameters);
-
-            WasLocationGranted = await _permissionsService.TryGetPermissionAsync<LocationPermission>();
+            base.Initialize(parameters);
 
             if (parameters.TryGetValue(nameof(PinViewModel), out PinViewModel pinViewModel))
             {
@@ -140,19 +138,20 @@ namespace GPSNotebook.ViewModels
             }
         }
 
-        protected override async void OnPropertyChanged(PropertyChangedEventArgs args)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            WasLocationGranted = await _permissionsService.TryGetPermissionAsync<LocationPermission>();
+        }
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
 
             if (args.PropertyName == nameof(Latitude) ||
                 args.PropertyName == nameof(Longitude))
             {
-                var wereCoordinatesSet = Latitude != null &&
-                                         Longitude != null;
-
-                var wereCoordinatesCleared = Latitude == string.Empty ||
-                                             Longitude == string.Empty;
-
                 if (CoordinatesValidator.Validate(Latitude, CoordinatesValidator.Latitude) &&
                     CoordinatesValidator.Validate(Longitude, CoordinatesValidator.Longitude))
                 {
@@ -162,12 +161,10 @@ namespace GPSNotebook.ViewModels
                         Position = new Position(double.Parse(Latitude), double.Parse(Longitude))
                     };
                 }
-                // there's no need to show this very alert while user holds backspace
-                else if (wereCoordinatesSet && !wereCoordinatesCleared)
+                else
                 {
-                    await UserDialogs.Instance.AlertAsync(Resource.InvalidCoordinates);
+                    TappedPin = null;
                 }
-
             }
         }
 
@@ -194,32 +191,40 @@ namespace GPSNotebook.ViewModels
         {
             if (IsAllInputsFilled)
             {
-                var pinModel = new PinModel
+                if (CoordinatesValidator.Validate(Latitude, CoordinatesValidator.Latitude) &&
+                    CoordinatesValidator.Validate(Longitude, CoordinatesValidator.Longitude))
                 {
-                    Id = PinId,
-                    UserId = _authorizationService.GetCurrentUserId,
-                    Name = Name,
-                    Description = Description,
-                    IsFavorite = IsFavorite,
-                    Latitude = Latitude,
-                    Longitude = Longitude,
-                    PinImagePath = PinImagePath
-                };
+                    var pinModel = new PinModel
+                    {
+                        Id = PinId,
+                        UserId = _authorizationService.GetCurrentUserId,
+                        Name = Name,
+                        Description = Description,
+                        IsFavorite = IsFavorite,
+                        Latitude = Latitude,
+                        Longitude = Longitude,
+                        PinImagePath = PinImagePath
+                    };
 
-                if (PinId == 0)
-                {
-                    await _pinService.InsertPinAsync(pinModel);
+                    if (PinId == 0)
+                    {
+                        await _pinService.InsertPinAsync(pinModel);
+                    }
+                    else
+                    {
+                        await _pinService.UpdatePinAsync(pinModel);
+                    }
+
+                    await NavigationService.GoBackAsync();
                 }
                 else
                 {
-                    await _pinService.UpdatePinAsync(pinModel);
+                    await UserDialogs.Instance.AlertAsync(Resource.AddEditPinIvalidCoordinatesMsg);
                 }
-
-                await NavigationService.GoBackAsync();
             }
             else
             {
-                await UserDialogs.Instance.AlertAsync(Resource.AddEditPinErrorAlert);
+                await UserDialogs.Instance.AlertAsync(Resource.AddEditPinEmtyFieldsErrorMsg);
             }
         }
 
@@ -240,7 +245,7 @@ namespace GPSNotebook.ViewModels
         {
             if (await _permissionsService.TryGetPermissionAsync<CameraPermission>())
             {
-                var photo = await MediaPicker.CapturePhotoAsync(new MediaPickerOptions()
+                var photo = await MediaPicker.CapturePhotoAsync(new MediaPickerOptions
                 {
                     Title = $"ProfileBook{DateTime.Now:dd-MM-yyyy_hh.mm.ss}.jpg"
                 });
