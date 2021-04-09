@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
 using GPSNotebook.Extensions;
@@ -64,6 +65,13 @@ namespace GPSNotebook.ViewModels
             set => SetProperty(ref _cameraPosition, value);
         }
 
+        private string _searchText;
+        public string SearchText
+        {
+            get => _searchText;
+            set => SetProperty(ref _searchText, value);
+        }
+
         private DelegateCommand _addPinCommand;
         public DelegateCommand AddPinCommand =>
             _addPinCommand ?? (_addPinCommand = new DelegateCommand(ExecuteAddPinCommand));
@@ -71,6 +79,13 @@ namespace GPSNotebook.ViewModels
         public ICommand EditPinCommand => new Command<PinViewModel>(ExecuteEditPinCommand);
 
         public ICommand DeletePinCommand => new Command<PinViewModel>(ExecuteDeletePinCommand);
+
+        private ObservableCollection<PinViewModel> _pinsToShow;
+        public ObservableCollection<PinViewModel> PinsToShow
+        {
+            get => _pinsToShow;
+            set => SetProperty(ref _pinsToShow, value);
+        }
 
         #endregion
 
@@ -89,21 +104,45 @@ namespace GPSNotebook.ViewModels
                 SelectedPin = null;
                 NavigationService.SelectTabAsync(nameof(MapTab), parameters);
             }
+
+            if (args.PropertyName == nameof(SearchText))
+            {
+                if (string.IsNullOrEmpty(SearchText))
+                {
+                    PinsToShow = new ObservableCollection<PinViewModel>(PinsCollection);
+                }
+                else
+                {
+                    var preparedSearchText = SearchText.ToLower().Trim();
+
+                    var result = PinsCollection
+                        .Where(pin => pin.Name.ToLower().Contains(preparedSearchText) ||
+                                      (!string.IsNullOrEmpty(pin.Description) && pin.Description.ToLower().Contains(preparedSearchText)) ||
+                                      pin.Latitude.ToLower().Contains(preparedSearchText) ||
+                                      pin.Longitude.ToLower().Contains(preparedSearchText));
+
+                    PinsToShow = new ObservableCollection<PinViewModel>(result);
+                }
+            }
         }
 
         #endregion
 
         #region -- Private Helpers -- 
 
-        private void OnTabActivated(object sender, EventArgs e)
+        private async void OnTabActivated(object sender, EventArgs e)
         {
             if (IsActive)
             {
-                UpdatePinsCollection();
+                await UpdatePinsCollection();
+
+                var lastInput = SearchText;
+                SearchText = string.Empty;
+                SearchText = lastInput;
             }
         }
 
-        private async void UpdatePinsCollection()
+        private async Task UpdatePinsCollection()
         {
             var pinModels = await _pinService.GetPinsListAsync(
                 pin => pin.UserId == _authorizationService.GetCurrentUserId);
@@ -117,8 +156,10 @@ namespace GPSNotebook.ViewModels
 
             PinsCollection = new ObservableCollection<PinViewModel>(pins);
 
-            IsListVisible = PinsCollection.Any();
-            IsLabelVisible = !PinsCollection.Any();
+            PinsToShow = new ObservableCollection<PinViewModel>(PinsCollection);
+
+            IsListVisible = PinsToShow.Any();
+            IsLabelVisible = !PinsToShow.Any();
         }
 
         private async void ExecuteAddPinCommand()
@@ -141,7 +182,7 @@ namespace GPSNotebook.ViewModels
             {
                 await _pinService.DeletePinAsync(pin.ToPinModel());
 
-                UpdatePinsCollection();
+                await UpdatePinsCollection();
             }
         }
 
