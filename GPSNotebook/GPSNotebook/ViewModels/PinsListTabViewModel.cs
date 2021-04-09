@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Input;
 using Acr.UserDialogs;
 using GPSNotebook.Extensions;
+using GPSNotebook.Resources;
 using GPSNotebook.Services.Authorization;
 using GPSNotebook.Services.PinService;
 using GPSNotebook.Views;
@@ -67,9 +68,9 @@ namespace GPSNotebook.ViewModels
         public DelegateCommand AddPinCommand =>
             _addPinCommand ?? (_addPinCommand = new DelegateCommand(ExecuteAddPinCommand));
 
-        public ICommand EditPinCommand => new Command<Pin>(ExecuteEditPinCommand);
+        public ICommand EditPinCommand => new Command<PinViewModel>(ExecuteEditPinCommand);
 
-        public ICommand DeletePinCommand => new Command<Pin>(ExecuteDeletePinCommand);
+        public ICommand DeletePinCommand => new Command<PinViewModel>(ExecuteDeletePinCommand);
 
         #endregion
 
@@ -125,14 +126,30 @@ namespace GPSNotebook.ViewModels
             await NavigationService.NavigateAsync(nameof(AddEditPinPage));
         }
 
-        private void ExecuteDeletePinCommand(Pin pin)
+        private async void ExecuteDeletePinCommand(PinViewModel pin)
         {
-            UserDialogs.Instance.Alert(nameof(ExecuteDeletePinCommand) + " " + pin);
+            ConfirmConfig config = new ConfirmConfig
+            {
+                Message = $"{Resource.PinDeletionConfirm} {pin.Name}?",
+                CancelText = Resource.Cancel,
+                OkText = Resource.OkText
+            };
+
+            var shouldDelete = await UserDialogs.Instance.ConfirmAsync(config);
+
+            if (shouldDelete)
+            {
+                await _pinService.DeletePinAsync(pin.ToPinModel());
+
+                UpdatePinsCollection();
+            }
         }
 
-        private void ExecuteEditPinCommand(Pin pin)
+        private async void ExecuteEditPinCommand(PinViewModel pin)
         {
-            UserDialogs.Instance.Alert(nameof(ExecuteEditPinCommand) + " " + pin);
+            var parameters = new NavigationParameters { { nameof(PinViewModel), pin } };
+
+            await NavigationService.NavigateAsync(nameof(AddEditPinPage), parameters);
         }
 
         #endregion

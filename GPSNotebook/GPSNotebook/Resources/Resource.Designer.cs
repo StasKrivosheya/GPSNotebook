@@ -61,11 +61,20 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please, input name and valid coordinates, or select point on map..
+        ///   Looks up a localized string similar to You must enter a name and coordinates before saving Pin!.
         /// </summary>
-        internal static string AddEditPinErrorAlert {
+        internal static string AddEditPinEmtyFieldsErrorMsg {
             get {
-                return ResourceManager.GetString("AddEditPinErrorAlert", resourceCulture);
+                return ResourceManager.GetString("AddEditPinEmtyFieldsErrorMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong Latitude or Longitude. Please, check your inputs or select position on map..
+        /// </summary>
+        internal static string AddEditPinIvalidCoordinatesMsg {
+            get {
+                return ResourceManager.GetString("AddEditPinIvalidCoordinatesMsg", resourceCulture);
             }
         }
         
@@ -336,6 +345,15 @@ namespace GPSNotebook.Resources {
         internal static string PermissionNotGranted {
             get {
                 return ResourceManager.GetString("PermissionNotGranted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete .
+        /// </summary>
+        internal static string PinDeletionConfirm {
+            get {
+                return ResourceManager.GetString("PinDeletionConfirm", resourceCulture);
             }
         }
         

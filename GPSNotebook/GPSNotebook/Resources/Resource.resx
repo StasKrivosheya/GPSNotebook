@@ -117,8 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddEditPinErrorAlert" xml:space="preserve">
-    <value>Please, input name and valid coordinates, or select point on map.</value>
+  <data name="AddEditPinEmtyFieldsErrorMsg" xml:space="preserve">
+    <value>You must enter a name and coordinates before saving Pin!</value>
+  </data>
+  <data name="AddEditPinIvalidCoordinatesMsg" xml:space="preserve">
+    <value>Wrong Latitude or Longitude. Please, check your inputs or select position on map.</value>
   </data>
   <data name="AddPinTitle" xml:space="preserve">
     <value>Add new Pin</value>
@@ -209,6 +212,9 @@
   </data>
   <data name="PermissionNotGranted" xml:space="preserve">
     <value>You denied this permission</value>
+  </data>
+  <data name="PinDeletionConfirm" xml:space="preserve">
+    <value>Are you sure you want to delete </value>
   </data>
   <data name="PinsListTabTitle" xml:space="preserve">
     <value>Pins</value>
