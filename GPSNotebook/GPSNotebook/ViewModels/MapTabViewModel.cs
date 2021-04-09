@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 using GPSNotebook.Extensions;
 using GPSNotebook.Services.Authorization;
 using GPSNotebook.Services.Permissions;
 using GPSNotebook.Services.PinService;
+using GPSNotebook.Views;
 using Plugin.Permissions;
 using Prism.Navigation;
 using Xamarin.Forms.GoogleMaps;
@@ -54,6 +57,13 @@ namespace GPSNotebook.ViewModels
             set => SetProperty(ref _wasLocationGranted, value);
         }
 
+        private Pin _selectedPin;
+        public Pin SelectedPin
+        {
+            get => _selectedPin;
+            set => SetProperty(ref _selectedPin, value);
+        }
+
         #region -- Overrides --
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
@@ -65,6 +75,23 @@ namespace GPSNotebook.ViewModels
             if (parameters.TryGetValue(nameof(CameraPosition), out CameraPosition cameraPosition))
             {
                 MyCameraPosition = cameraPosition;
+            }
+        }
+
+        protected override async void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName == nameof(SelectedPin) && SelectedPin != null)
+            {
+                var pinModelForPopUp = (await _pinService.GetPinsListAsync(pin => pin.Name == SelectedPin.Label)).First();
+
+                var parameters = new NavigationParameters
+                {
+                    {nameof(PinViewModel), pinModelForPopUp}
+                };
+
+                await NavigationService.NavigateAsync(nameof(PinInfoPopupPage), animated:true, useModalNavigation: true, parameters: parameters);
             }
         }
 

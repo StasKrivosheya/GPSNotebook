@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="GPSNotebook.Views.PinInfoPopupPage"
+             BackgroundClickedCommand="{Binding GoBackCommand }">
+
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation 
+            PositionIn="Bottom"
+            PositionOut="Bottom"
+            ScaleIn="1.2"
+            ScaleOut="0.8"
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"/>
+    </pages:PopupPage.Animation>
+
+    <Frame VerticalOptions="End"
+           HorizontalOptions="Center"
+           Margin="20"
+           Padding="10"
+           BackgroundColor="Azure"
+           CornerRadius="20"
+           HeightRequest="190">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackLayout Grid.Column="0"
+                         Padding="10">
+                <Label Text="{Binding Name}"
+                       FontSize="Title"
+                       HorizontalOptions="Center"
+                       MaxLines="2" />
+                <Label Text="{Binding Description}"
+                       FontSize="Body" 
+                       MaxLines="6" />
+            </StackLayout>
+
+            <Image Grid.Column="1"
+                   Source="{Binding PinImagePath}" />
+        </Grid>
+    </Frame>
+
+</pages:PopupPage>

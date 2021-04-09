@@ -8,6 +8,7 @@ using GPSNotebook.ViewModels;
 using GPSNotebook.Views;
 using Prism;
 using Prism.Ioc;
+using Prism.Plugin.Popups;
 using Prism.Unity;
 using Xamarin.Forms;
 
@@ -43,6 +44,8 @@ namespace GPSNotebook
             containerRegistry.RegisterInstance<IPinService>(Container.Resolve<PinService>());
             containerRegistry.RegisterInstance<IPermissionsService>(Container.Resolve<PermissionsService>());
 
+            containerRegistry.RegisterPopupNavigationService();
+
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<SignInPage, SignInViewModel>();
@@ -51,6 +54,7 @@ namespace GPSNotebook
             containerRegistry.RegisterForNavigation<MapTab, MapTabViewModel>();
             containerRegistry.RegisterForNavigation<PinsListTab, PinsListTabViewModel>();
             containerRegistry.RegisterForNavigation<AddEditPinPage, AddEditPinPageViewModel>();
+            containerRegistry.RegisterForNavigation<PinInfoPopupPage, PinInfoPopupPageViewModel>();
         }
 
         protected override async void OnInitialized()

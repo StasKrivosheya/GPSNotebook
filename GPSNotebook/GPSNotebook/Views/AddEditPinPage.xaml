@@ -35,10 +35,13 @@
             <StackLayout Grid.Row="1"
                          Padding="25">
                 <Entry Text="{Binding Name}"
-                       Placeholder="{x:Static resource:Resource.NamePlaceholder}"/>
+                       Placeholder="{x:Static resource:Resource.NamePlaceholder}"
+                       MaxLength="30" />
 
                 <Editor Text="{Binding Description}"
-                        Placeholder="{x:Static resource:Resource.Description}"/>
+                        Placeholder="{x:Static resource:Resource.Description}"
+                        HeightRequest="65"
+                        MaxLength="110" />
 
 
                 <Label Text="{x:Static resource:Resource.SetFavorite}"/>

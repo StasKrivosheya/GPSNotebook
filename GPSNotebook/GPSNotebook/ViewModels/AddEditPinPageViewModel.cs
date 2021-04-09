@@ -8,6 +8,7 @@ using GPSNotebook.Services.Authorization;
 using GPSNotebook.Services.Permissions;
 using GPSNotebook.Services.PinService;
 using GPSNotebook.Validators;
+using GPSNotebook.Views;
 using Plugin.Permissions;
 using Prism.Commands;
 using Prism.Navigation;
@@ -143,6 +144,15 @@ namespace GPSNotebook.ViewModels
             base.OnNavigatedTo(parameters);
 
             WasLocationGranted = await _permissionsService.TryGetPermissionAsync<LocationPermission>();
+
+            if (Latitude != null && Longitude != null)
+            {
+                TappedPin = new PinViewModel
+                {
+                    Name = string.Empty,
+                    Position = new Position(double.Parse(Latitude), double.Parse(Longitude))
+                };
+            }
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)

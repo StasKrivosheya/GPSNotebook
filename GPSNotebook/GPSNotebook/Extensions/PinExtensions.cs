@@ -58,10 +58,9 @@ namespace GPSNotebook.Extensions
             {
                 pin = new Pin
                 {
-                    Address = pinViewModel.Description,
-                    IsVisible = pinViewModel.IsFavorite,
                     Label = pinViewModel.Name,
-                    Position = pinViewModel.Position
+                    Position = pinViewModel.Position,
+                    IsVisible = pinViewModel.IsFavorite
                 };
             }
 

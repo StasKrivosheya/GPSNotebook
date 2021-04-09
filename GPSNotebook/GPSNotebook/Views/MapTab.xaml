@@ -19,7 +19,8 @@
                                         VerticalOptions="FillAndExpand"
                                         PinsSource="{Binding PinsCollection}"
                                         MyCameraPosition="{Binding MyCameraPosition}"
-                                        MyLocationEnabled="{Binding WasLocationGranted}"/>
+                                        MyLocationEnabled="{Binding WasLocationGranted}"
+                                        SelectedPin="{Binding SelectedPin}" />
 
         </Grid>
     </ContentPage.Content>

@@ -20,6 +20,8 @@ namespace GPSNotebook.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            Rg.Plugins.Popup.Popup.Init();
+
             global::Xamarin.Forms.Forms.Init();
 
             Xamarin.FormsGoogleMaps.Init("AIzaSyCafdZhtBWz_aXJPtz9gdJoL6w8ghfmiJg");
