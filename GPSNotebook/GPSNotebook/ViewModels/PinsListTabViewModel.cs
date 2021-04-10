@@ -65,13 +65,6 @@ namespace GPSNotebook.ViewModels
             set => SetProperty(ref _cameraPosition, value);
         }
 
-        private string _searchText;
-        public string SearchText
-        {
-            get => _searchText;
-            set => SetProperty(ref _searchText, value);
-        }
-
         private DelegateCommand _addPinCommand;
         public DelegateCommand AddPinCommand =>
             _addPinCommand ?? (_addPinCommand = new DelegateCommand(ExecuteAddPinCommand));
@@ -79,13 +72,6 @@ namespace GPSNotebook.ViewModels
         public ICommand EditPinCommand => new Command<PinViewModel>(ExecuteEditPinCommand);
 
         public ICommand DeletePinCommand => new Command<PinViewModel>(ExecuteDeletePinCommand);
-
-        private ObservableCollection<PinViewModel> _pinsToShow;
-        public ObservableCollection<PinViewModel> PinsToShow
-        {
-            get => _pinsToShow;
-            set => SetProperty(ref _pinsToShow, value);
-        }
 
         #endregion
 
@@ -134,7 +120,7 @@ namespace GPSNotebook.ViewModels
         {
             if (IsActive)
             {
-                await UpdatePinsCollection();
+                await UpdatePinsCollectionAsync();
 
                 var lastInput = SearchText;
                 SearchText = string.Empty;
@@ -142,7 +128,7 @@ namespace GPSNotebook.ViewModels
             }
         }
 
-        private async Task UpdatePinsCollection()
+        private async Task UpdatePinsCollectionAsync()
         {
             var pinModels = await _pinService.GetPinsListAsync(
                 pin => pin.UserId == _authorizationService.GetCurrentUserId);
@@ -182,7 +168,7 @@ namespace GPSNotebook.ViewModels
             {
                 await _pinService.DeletePinAsync(pin.ToPinModel());
 
-                await UpdatePinsCollection();
+                await UpdatePinsCollectionAsync();
             }
         }
 

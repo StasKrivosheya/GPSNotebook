@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using GPSNotebook.Extensions;
 using GPSNotebook.Services.Authorization;
 using GPSNotebook.Services.Permissions;
 using GPSNotebook.Services.PinService;
 using GPSNotebook.Views;
 using Plugin.Permissions;
+using Prism.Commands;
 using Prism.Navigation;
 using Xamarin.Forms.GoogleMaps;
 
@@ -64,6 +67,8 @@ namespace GPSNotebook.ViewModels
             set => SetProperty(ref _selectedPin, value);
         }
 
+        public ICommand SuggestionChosenCommand => new DelegateCommand<PinViewModel>(ExecuteSuggestionChosenCommand);
+
         #region -- Overrides --
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
@@ -93,21 +98,38 @@ namespace GPSNotebook.ViewModels
 
                 await NavigationService.NavigateAsync(nameof(PinInfoPopupPage), animated:true, useModalNavigation: true, parameters: parameters);
             }
+
+            if (args.PropertyName == nameof(SearchText))
+            {
+                if (string.IsNullOrEmpty(SearchText))
+                {
+                    PinsToShow = new ObservableCollection<PinViewModel>(PinsCollection.Where(pin => pin.IsFavorite));
+                }
+                else
+                {
+                    var preparedSearchText = SearchText.ToLower().Trim();
+
+                    var result = PinsCollection
+                        .Where(pin => pin.Name.ToLower().Contains(preparedSearchText) && pin.IsFavorite);
+
+                    PinsToShow = new ObservableCollection<PinViewModel>(result);
+                }
+            }
         }
 
         #endregion
 
         #region -- Private Helpers --
 
-        private void OnTabActivated(object sender, EventArgs e)
+        private async void OnTabActivated(object sender, EventArgs e)
         {
             if (IsActive)
             {
-                UpdatePinsCollection();
+                await UpdatePinsCollectionAsync();
             }
         }
 
-        private async void UpdatePinsCollection()
+        private async Task UpdatePinsCollectionAsync()
         {
             var pinModels = await _pinService.GetPinsListAsync(
                 pin => pin.UserId == _authorizationService.GetCurrentUserId);
@@ -120,6 +142,12 @@ namespace GPSNotebook.ViewModels
             }
 
             PinsCollection = new ObservableCollection<PinViewModel>(pins);
+            PinsToShow = new ObservableCollection<PinViewModel>(PinsCollection.Where(pin => pin.IsFavorite));
+        }
+
+        private void ExecuteSuggestionChosenCommand(PinViewModel pin)
+        {
+            MyCameraPosition = new CameraPosition(pin.Position, 1.0);
         }
 
         #endregion

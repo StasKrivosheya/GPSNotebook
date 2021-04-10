@@ -23,6 +23,20 @@ namespace GPSNotebook.ViewModels
             set => SetProperty(ref _pinsCollection, value);
         }
 
+        private ObservableCollection<PinViewModel> _pinsToShow;
+        public ObservableCollection<PinViewModel> PinsToShow
+        {
+            get => _pinsToShow;
+            set => SetProperty(ref _pinsToShow, value);
+        }
+
+        private string _searchText;
+        public string SearchText
+        {
+            get => _searchText;
+            set => SetProperty(ref _searchText, value);
+        }
+
         #endregion
 
         #region -- IActiveAware Implementation --

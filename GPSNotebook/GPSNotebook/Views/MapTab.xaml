@@ -5,6 +5,7 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:controls="clr-namespace:GPSNotebook.Controls;assembly=GPSNotebook"
+             xmlns:forms="clr-namespace:dotMorten.Xamarin.Forms;assembly=dotMorten.Xamarin.Forms.AutoSuggestBox"
              x:Class="GPSNotebook.Views.MapTab"
              Title="{x:Static resource:Resource.MapTabTitle}">
     <ContentPage.Content>
@@ -13,11 +14,23 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <SearchBar Grid.Row="0" Placeholder="mock" />
+
+            <forms:AutoSuggestBox Grid.Row="0"
+                                  ItemsSource="{Binding PinsToShow}"
+                                  DisplayMemberPath="Name"
+                                  TextMemberPath="Name"
+                                  Text="{Binding SearchText, Mode=TwoWay}"
+                                  PlaceholderText="search for favorite pin name" Margin="25, 0" >
+                <forms:AutoSuggestBox.Behaviors>
+                    <prism:EventToCommandBehavior EventName="SuggestionChosen"
+                                                  Command="{Binding SuggestionChosenCommand}"
+                                                  EventArgsParameterPath="SelectedItem"/>
+                </forms:AutoSuggestBox.Behaviors>
+            </forms:AutoSuggestBox>
 
             <controls:BindableGoogleMap Grid.Row="1"
                                         VerticalOptions="FillAndExpand"
-                                        PinsSource="{Binding PinsCollection}"
+                                        PinsSource="{Binding PinsToShow}"
                                         MyCameraPosition="{Binding MyCameraPosition}"
                                         MyLocationEnabled="{Binding WasLocationGranted}"
                                         SelectedPin="{Binding SelectedPin}" />
