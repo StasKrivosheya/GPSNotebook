@@ -6,21 +6,12 @@ using GPSNotebook.Extensions;
 using GPSNotebook.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
-using GoogleMap = Xamarin.Forms.GoogleMaps.Map;
-
-// has bugs: shows pins with IsVisible = false
-// using GoogleMap = Xamarin.Forms.GoogleMaps.Clustering.ClusteredMap;
+using GoogleMap = Xamarin.Forms.GoogleMaps.Clustering.ClusteredMap;
 
 namespace GPSNotebook.Controls
 {
     class BindableGoogleMap : GoogleMap
     {
-        #region -- Private Constants --
-
-        private const double DEFAULT_CAMERA_ZOOM = 15d;
-
-        #endregion
-
         public BindableGoogleMap()
         {
             PinsSource = new ObservableCollection<PinViewModel>();
@@ -122,7 +113,7 @@ namespace GPSNotebook.Controls
 
                     Pins.Add(pinToShow);
 
-                    CameraPosition cameraPosition = new CameraPosition(PinMarker.Position, DEFAULT_CAMERA_ZOOM);
+                    CameraPosition cameraPosition = new CameraPosition(PinMarker.Position, Constants.DEFAULT_CAMERA_ZOOM);
                     var cameraUpdate = CameraUpdateFactory.NewCameraPosition(cameraPosition);
                     AnimateCamera(cameraUpdate);
                 }
@@ -148,7 +139,7 @@ namespace GPSNotebook.Controls
             {
                 if (newValue is CameraPosition newCamPos)
                 {
-                    newCamPos = new CameraPosition(newCamPos.Target, DEFAULT_CAMERA_ZOOM);
+                    newCamPos = new CameraPosition(newCamPos.Target, newCamPos.Zoom);
                     var cameraUpdate = CameraUpdateFactory.NewCameraPosition(newCamPos);
                     await thisInstance.AnimateCamera(cameraUpdate);
                 }

@@ -85,7 +85,7 @@ namespace GPSNotebook.ViewModels
             {
                 NavigationParameters parameters = new NavigationParameters
                 {
-                    { nameof(CameraPosition), new CameraPosition(SelectedPin.Position, 1.0) }
+                    { nameof(CameraPosition), new CameraPosition(SelectedPin.Position, Constants.DEFAULT_CAMERA_ZOOM) }
                 };
                 SelectedPin = null;
                 NavigationService.SelectTabAsync(nameof(MapTab), parameters);

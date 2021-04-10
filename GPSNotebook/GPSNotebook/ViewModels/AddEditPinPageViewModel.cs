@@ -8,7 +8,6 @@ using GPSNotebook.Services.Authorization;
 using GPSNotebook.Services.Permissions;
 using GPSNotebook.Services.PinService;
 using GPSNotebook.Validators;
-using GPSNotebook.Views;
 using Plugin.Permissions;
 using Prism.Commands;
 using Prism.Navigation;

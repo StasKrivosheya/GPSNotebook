@@ -34,18 +34,33 @@
 
             <StackLayout Grid.Row="1"
                          Padding="25">
-                <Entry Text="{Binding Name}"
-                       Placeholder="{x:Static resource:Resource.NamePlaceholder}"
-                       MaxLength="30" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Entry Grid.Column="0"
+                           Text="{Binding Name}"
+                           Placeholder="{x:Static resource:Resource.NamePlaceholder}"
+                           MaxLength="30" />
+
+                    <StackLayout Grid.Column="1" HorizontalOptions="Center">
+                        <Label Text="{x:Static resource:Resource.SetFavorite}" />
+                        <CheckBox IsChecked="{Binding IsFavorite}" HorizontalOptions="Center" />
+                    </StackLayout>
+                </Grid>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    
+
+                    
+                </StackLayout>
+                
 
                 <Editor Text="{Binding Description}"
                         Placeholder="{x:Static resource:Resource.Description}"
                         HeightRequest="65"
                         MaxLength="110" />
-
-
-                <Label Text="{x:Static resource:Resource.SetFavorite}"/>
-                <CheckBox IsChecked="{Binding IsFavorite}" />
 
                 <StackLayout Orientation="Vertical">
                     <Entry Text="{Binding Latitude}"
@@ -59,7 +74,7 @@
                                         VerticalOptions="FillAndExpand"
                                         MapClickedCommand="{Binding MapClickedCommand}"
                                         PinMarker="{Binding TappedPin}"
-                                        MyLocationEnabled="{Binding WasLocationGranted}"/>
+                                        MyLocationEnabled="{Binding WasLocationGranted}" />
         </Grid>
     </ContentPage.Content>
   

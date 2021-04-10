@@ -147,7 +147,7 @@ namespace GPSNotebook.ViewModels
 
         private void ExecuteSuggestionChosenCommand(PinViewModel pin)
         {
-            MyCameraPosition = new CameraPosition(pin.Position, 1.0);
+            MyCameraPosition = new CameraPosition(pin.Position, Constants.DEFAULT_CAMERA_ZOOM);
         }
 
         #endregion
