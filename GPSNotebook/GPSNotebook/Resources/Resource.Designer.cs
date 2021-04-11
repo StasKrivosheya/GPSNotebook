@@ -241,6 +241,15 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is Favorite: .
+        /// </summary>
+        internal static string IsFavoriteText {
+            get {
+                return ResourceManager.GetString("IsFavoriteText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Latitude.
         /// </summary>
         internal static string Latitude {
@@ -273,6 +282,15 @@ namespace GPSNotebook.Resources {
         internal static string MailPlaceholder {
             get {
                 return ResourceManager.GetString("MailPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to search for favorite pin name.
+        /// </summary>
+        internal static string MapTabSearchPlaceholder {
+            get {
+                return ResourceManager.GetString("MapTabSearchPlaceholder", resourceCulture);
             }
         }
         
@@ -354,6 +372,15 @@ namespace GPSNotebook.Resources {
         internal static string PinDeletionConfirm {
             get {
                 return ResourceManager.GetString("PinDeletionConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to name, description or coordinates....
+        /// </summary>
+        internal static string PinsListSearchPlaceholder {
+            get {
+                return ResourceManager.GetString("PinsListSearchPlaceholder", resourceCulture);
             }
         }
         

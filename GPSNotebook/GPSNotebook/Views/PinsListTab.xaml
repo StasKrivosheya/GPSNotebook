@@ -15,7 +15,7 @@
             </Grid.RowDefinitions>
             <StackLayout Grid.Row="0">
                 <SearchBar Text="{Binding SearchText}"
-                           Placeholder="name, description or coordinates..." />
+                           Placeholder="{x:Static resource:Resource.PinsListSearchPlaceholder}" BackgroundColor="LightGray"/>
 
                 <ListView ItemsSource="{Binding PinsToShow}"
                           IsVisible="{Binding IsListVisible}"
@@ -68,7 +68,15 @@
                                                 </StackLayout>
                                             </Grid>
 
-                                            <Label Text="{Binding IsFavoriteText}" />
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="{Binding IsFavoriteText}" />
+                                                <!--<CheckBox IsChecked="{Binding IsFavorite}">
+                                                    --><!--<CheckBox.Behaviors>
+                                                        <prism:EventToCommandBehavior EventName="CheckedChanged"
+                                                            Command="{Binding CheckBoxChangedCommand}"/>
+                                                    </CheckBox.Behaviors>--><!--
+                                                </CheckBox>-->
+                                            </StackLayout>
                                         </StackLayout>
                                     </Grid>
                                 </ViewCell.View>

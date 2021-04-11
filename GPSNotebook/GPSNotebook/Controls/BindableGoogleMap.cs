@@ -126,10 +126,8 @@ namespace GPSNotebook.Controls
 
         private static void PinsSourcePropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var thisInstance = bindable as BindableGoogleMap;
-            var newPinsSource = newValue as ObservableCollection<PinViewModel>;
-
-            if (thisInstance != null && newPinsSource != null)
+            if (bindable is BindableGoogleMap thisInstance &&
+                newValue is ObservableCollection<PinViewModel> newPinsSource)
                 UpdatePinsSource(thisInstance, newPinsSource);
         }
 
@@ -160,12 +158,12 @@ namespace GPSNotebook.Controls
 
         private void OnMapClicked(object sender, MapClickedEventArgs e)
         {
-            if (MapClickedCommand != null)
+            SelectedPin = null;
+
+            if (MapClickedCommand != null &&
+                MapClickedCommand.CanExecute(e.Point))
             {
-                if (MapClickedCommand.CanExecute(e.Point))
-                {
-                    MapClickedCommand.Execute(e.Point);
-                }
+                MapClickedCommand.Execute(e.Point);
             }
         }
 

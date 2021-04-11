@@ -20,7 +20,8 @@
                                   DisplayMemberPath="Name"
                                   TextMemberPath="Name"
                                   Text="{Binding SearchText, Mode=TwoWay}"
-                                  PlaceholderText="search for favorite pin name" Margin="25, 0" >
+                                  PlaceholderText="{x:Static resource:Resource.MapTabSearchPlaceholder}"
+                                  Margin="25, 0" >
                 <forms:AutoSuggestBox.Behaviors>
                     <prism:EventToCommandBehavior EventName="SuggestionChosen"
                                                   Command="{Binding SuggestionChosenCommand}"
@@ -33,7 +34,13 @@
                                         PinsSource="{Binding PinsToShow}"
                                         MyCameraPosition="{Binding MyCameraPosition}"
                                         MyLocationEnabled="{Binding WasLocationGranted}"
-                                        SelectedPin="{Binding SelectedPin}" />
+                                        SelectedPin="{Binding SelectedPin}">
+                <controls:BindableGoogleMap.Behaviors>
+                    <prism:EventToCommandBehavior EventName="InfoWindowClicked"
+                                                  Command="{Binding InfoWindowClickedCommand}"
+                                                  EventArgsParameterPath="Pin"/>
+                </controls:BindableGoogleMap.Behaviors>
+            </controls:BindableGoogleMap>
 
         </Grid>
     </ContentPage.Content>

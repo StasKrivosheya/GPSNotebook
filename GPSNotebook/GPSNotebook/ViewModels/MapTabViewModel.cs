@@ -69,6 +69,8 @@ namespace GPSNotebook.ViewModels
 
         public ICommand SuggestionChosenCommand => new DelegateCommand<PinViewModel>(ExecuteSuggestionChosenCommand);
 
+        public ICommand InfoWindowClickedCommand => new DelegateCommand<Pin>(ExecuteInfoWindowClickedCommand);
+
         #region -- Overrides --
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
@@ -89,7 +91,12 @@ namespace GPSNotebook.ViewModels
 
             if (args.PropertyName == nameof(SelectedPin) && SelectedPin != null)
             {
-                var pinModelForPopUp = (await _pinService.GetPinsListAsync(pin => pin.Name == SelectedPin.Label)).First();
+                var selectedPinLatitude = SelectedPin.Position.Latitude.ToString();
+                var selectedPinLongitude = SelectedPin.Position.Longitude.ToString();
+
+                var pinModelForPopUp = (await _pinService.GetPinsListAsync(
+                    pin => pin.Latitude == selectedPinLatitude  &&
+                           pin.Longitude == selectedPinLongitude)).First();
 
                 var parameters = new NavigationParameters
                 {
@@ -148,6 +155,24 @@ namespace GPSNotebook.ViewModels
         private void ExecuteSuggestionChosenCommand(PinViewModel pin)
         {
             MyCameraPosition = new CameraPosition(pin.Position, Constants.DEFAULT_CAMERA_ZOOM);
+        }
+
+        private async void ExecuteInfoWindowClickedCommand(Pin pin)
+        {
+
+            var selectedPinLatitude = pin.Position.Latitude.ToString();
+            var selectedPinLongitude = pin.Position.Longitude.ToString();
+
+            var pinModelForPopUp = (await _pinService.GetPinsListAsync(
+                p => p.Latitude == selectedPinLatitude &&
+                       p.Longitude == selectedPinLongitude)).First();
+
+            var parameters = new NavigationParameters
+                {
+                    {nameof(PinViewModel), pinModelForPopUp}
+                };
+
+            await NavigationService.NavigateAsync(nameof(PinInfoPopupPage), animated: true, useModalNavigation: true, parameters: parameters);
         }
 
         #endregion

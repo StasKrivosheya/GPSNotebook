@@ -40,10 +40,12 @@
                 <Label Text="{Binding Name}"
                        FontSize="Title"
                        HorizontalOptions="Center"
-                       MaxLines="2" />
+                       MaxLines="2"
+                       TextColor="Black"/>
                 <Label Text="{Binding Description}"
                        FontSize="Body" 
-                       MaxLines="6" />
+                       MaxLines="6"
+                       TextColor="Black"/>
             </StackLayout>
 
             <Image Grid.Column="1"

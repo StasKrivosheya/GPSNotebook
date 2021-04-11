@@ -25,7 +25,7 @@
                         <Style TargetType="Frame">
                             <Style.Triggers>
                                 <Trigger TargetType="Frame" Property="IsEnabled" Value="False">
-                                    <Setter Property="BackgroundColor" Value="#FFCD73" />
+                                    <Setter Property="BackgroundColor" Value="#c2b9a7" />
                                 </Trigger>
                             </Style.Triggers>
                         </Style>

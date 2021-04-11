@@ -177,6 +177,9 @@
   <data name="InvalidPasswordTitle" xml:space="preserve">
     <value>Invalid Password</value>
   </data>
+  <data name="IsFavoriteText" xml:space="preserve">
+    <value>Is Favorite: </value>
+  </data>
   <data name="Latitude" xml:space="preserve">
     <value>Latitude</value>
   </data>
@@ -188,6 +191,9 @@
   </data>
   <data name="MailPlaceholder" xml:space="preserve">
     <value>e-mail</value>
+  </data>
+  <data name="MapTabSearchPlaceholder" xml:space="preserve">
+    <value>search for favorite pin name</value>
   </data>
   <data name="MapTabTitle" xml:space="preserve">
     <value>Map</value>
@@ -215,6 +221,9 @@
   </data>
   <data name="PinDeletionConfirm" xml:space="preserve">
     <value>Are you sure you want to delete </value>
+  </data>
+  <data name="PinsListSearchPlaceholder" xml:space="preserve">
+    <value>name, description or coordinates...</value>
   </data>
   <data name="PinsListTabTitle" xml:space="preserve">
     <value>Pins</value>
