@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Acr.UserDialogs;
 using GPSNotebook.Resources;
 using Plugin.Permissions;
@@ -14,26 +16,33 @@ namespace GPSNotebook.Services.Permissions
         {
             var result = false;
 
-            var currentStatus = await CrossPermissions.Current.CheckPermissionStatusAsync<T>();
-
-            if (currentStatus != PermissionStatus.Granted)
+            try
             {
-                var newStatus = await CrossPermissions.Current.RequestPermissionAsync<T>();
+                var currentStatus = await CrossPermissions.Current.CheckPermissionStatusAsync<T>();
 
-                if (newStatus != PermissionStatus.Granted)
+                if (currentStatus != PermissionStatus.Granted)
                 {
-                    ConfirmConfig config = new ConfirmConfig
-                    {
-                        Message = $"{ Resource.PermissionNotGranted }: { typeof(T).Name }.\n{ Resource.SuggestVisitingSettings }",
-                        CancelText = Resource.Cancel,
-                        OkText = Resource.OpenSettings
-                    };
+                    var newStatus = await CrossPermissions.Current.RequestPermissionAsync<T>();
 
-                    var shouldOpenSettings = await UserDialogs.Instance.ConfirmAsync(config);
-
-                    if (shouldOpenSettings)
+                    if (newStatus != PermissionStatus.Granted)
                     {
-                        CrossPermissions.Current.OpenAppSettings();
+                        var config = new ConfirmConfig
+                        {
+                            Message = $"{ Resource.PermissionNotGranted }: { typeof(T).Name }.\n{ Resource.SuggestVisitingSettings }",
+                            CancelText = Resource.Cancel,
+                            OkText = Resource.OpenSettings
+                        };
+
+                        var shouldOpenSettings = await UserDialogs.Instance.ConfirmAsync(config);
+
+                        if (shouldOpenSettings)
+                        {
+                            CrossPermissions.Current.OpenAppSettings();
+                        }
+                    }
+                    else
+                    {
+                        result = true;
                     }
                 }
                 else
@@ -41,9 +50,10 @@ namespace GPSNotebook.Services.Permissions
                     result = true;
                 }
             }
-            else
+            catch (Exception e)
             {
-                result = true;
+                Debug.WriteLine(e.Message);
+                result = false;
             }
 
             return result;

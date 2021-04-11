@@ -69,13 +69,9 @@
                                             </Grid>
 
                                             <StackLayout Orientation="Horizontal">
-                                                <Label Text="{Binding IsFavoriteText}" />
-                                                <!--<CheckBox IsChecked="{Binding IsFavorite}">
-                                                    --><!--<CheckBox.Behaviors>
-                                                        <prism:EventToCommandBehavior EventName="CheckedChanged"
-                                                            Command="{Binding CheckBoxChangedCommand}"/>
-                                                    </CheckBox.Behaviors>--><!--
-                                                </CheckBox>-->
+                                                <Label Text="{x:Static resource:Resource.IsFavoriteText}" />
+                                                <CheckBox IsChecked="{Binding IsFavorite}">
+                                                </CheckBox>
                                             </StackLayout>
                                         </StackLayout>
                                     </Grid>

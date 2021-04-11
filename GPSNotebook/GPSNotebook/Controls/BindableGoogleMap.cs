@@ -15,12 +15,18 @@ namespace GPSNotebook.Controls
         public BindableGoogleMap()
         {
             PinsSource = new ObservableCollection<PinViewModel>();
-            PinsSource.CollectionChanged += PinsSourceOnCollectionChanged;
+            PinsSource.CollectionChanged += OnPinsSourceCollectionChanged;
 
             UiSettings.MyLocationButtonEnabled = true;
             UiSettings.CompassEnabled = true;
 
             MapClicked += OnMapClicked;
+        }
+
+        ~BindableGoogleMap()
+        {
+            MapClicked -= OnMapClicked;
+            PinsSource.CollectionChanged -= OnPinsSourceCollectionChanged;
         }
 
         #region -- Public Properties --
@@ -30,23 +36,21 @@ namespace GPSNotebook.Controls
             returnType: typeof(ObservableCollection<PinViewModel>),
             declaringType: typeof(BindableGoogleMap),
             defaultValue: null,
-            defaultBindingMode: BindingMode.TwoWay,
-            propertyChanged: PinsSourcePropertyChanged);
+            defaultBindingMode: BindingMode.TwoWay);
 
         public static readonly BindableProperty MyCameraPositionProperty = BindableProperty.Create(
             propertyName: nameof(MyCameraPosition),
             returnType: typeof(CameraPosition),
             declaringType: typeof(BindableGoogleMap),
             defaultValue: null,
-            defaultBindingMode: BindingMode.TwoWay,
-            propertyChanged: MyCameraPositionPropertyChanged);
+            defaultBindingMode: BindingMode.TwoWay);
 
         public static readonly BindableProperty MapClickedCommandProperty = BindableProperty.Create(
             propertyName: nameof(MapClickedCommand),
             returnType: typeof(ICommand),
             declaringType: typeof(BindableGoogleMap),
-            defaultBindingMode: BindingMode.TwoWay,
-            defaultValue: null);
+            defaultValue: null,
+            defaultBindingMode: BindingMode.TwoWay);
 
         public static readonly BindableProperty PinMarkerProperty = BindableProperty.Create(
             propertyName: nameof(PinMarker),
@@ -83,7 +87,7 @@ namespace GPSNotebook.Controls
 
         #region -- Overrides --
 
-        protected override void OnPropertyChanged(string propertyName = null)
+        protected override async void OnPropertyChanged(string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 
@@ -91,14 +95,16 @@ namespace GPSNotebook.Controls
             {
                 if (PinsSource != null)
                 {
-                    Pins.Clear();
-
-                    foreach (PinViewModel pin in PinsSource)
-                    {
-                        Pins.Add(pin.ToPin());
-                    }
-
+                    UpdatePinsSource(PinsSource);
                 }
+            }
+
+            if (propertyName == nameof(MyCameraPosition))
+            {
+                var newCamPos = new CameraPosition(MyCameraPosition.Target, MyCameraPosition.Zoom);
+                var cameraUpdate = CameraUpdateFactory.NewCameraPosition(newCamPos);
+
+                await AnimateCamera(cameraUpdate);
             }
 
             if (propertyName == nameof(PinMarker))
@@ -113,9 +119,10 @@ namespace GPSNotebook.Controls
 
                     Pins.Add(pinToShow);
 
-                    CameraPosition cameraPosition = new CameraPosition(PinMarker.Position, Constants.DEFAULT_CAMERA_ZOOM);
+                    var cameraPosition = new CameraPosition(PinMarker.Position, Constants.DEFAULT_CAMERA_ZOOM);
                     var cameraUpdate = CameraUpdateFactory.NewCameraPosition(cameraPosition);
-                    AnimateCamera(cameraUpdate);
+
+                    await AnimateCamera(cameraUpdate);
                 }
             }
         }
@@ -124,36 +131,19 @@ namespace GPSNotebook.Controls
 
         #region -- Private Helpers --
 
-        private static void PinsSourcePropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        private void UpdatePinsSource(IEnumerable<PinViewModel> newSource)
         {
-            if (bindable is BindableGoogleMap thisInstance &&
-                newValue is ObservableCollection<PinViewModel> newPinsSource)
-                UpdatePinsSource(thisInstance, newPinsSource);
-        }
+            Pins.Clear();
 
-        private static async void MyCameraPositionPropertyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            if (bindable is BindableGoogleMap thisInstance)
+            foreach (var pin in newSource)
             {
-                if (newValue is CameraPosition newCamPos)
-                {
-                    newCamPos = new CameraPosition(newCamPos.Target, newCamPos.Zoom);
-                    var cameraUpdate = CameraUpdateFactory.NewCameraPosition(newCamPos);
-                    await thisInstance.AnimateCamera(cameraUpdate);
-                }
+                Pins.Add(pin.ToPin());
             }
         }
 
-        private void PinsSourceOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnPinsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            UpdatePinsSource(this, sender as IEnumerable<PinViewModel>);
-        }
-
-        private static void UpdatePinsSource(GoogleMap bindableMap, IEnumerable<PinViewModel> newSource)
-        {
-            bindableMap.Pins.Clear();
-            foreach (var pin in newSource)
-                bindableMap.Pins.Add(pin.ToPin());
+            UpdatePinsSource(sender as IEnumerable<PinViewModel>);
         }
 
         private void OnMapClicked(object sender, MapClickedEventArgs e)

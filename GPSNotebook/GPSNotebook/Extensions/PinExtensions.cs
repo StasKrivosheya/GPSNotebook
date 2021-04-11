@@ -34,17 +34,9 @@ namespace GPSNotebook.Extensions
 
             if (pinModel != null)
             {
-                pinViewModel = new PinViewModel
-                {
-                    Id = pinModel.Id,
-                    UserId = pinModel.UserId,
-                    Name = pinModel.Name,
-                    Description = pinModel.Description,
-                    IsFavorite = pinModel.IsFavorite,
-                    PinImagePath = pinModel.PinImagePath,
-                    Position = new Position(
-                        double.Parse(pinModel.Latitude), double.Parse(pinModel.Longitude))
-                };
+                pinViewModel = new PinViewModel(pinModel.Id, pinModel.PinImagePath, pinModel.UserId, pinModel.Name,
+                    pinModel.Description, pinModel.Latitude, pinModel.Longitude, pinModel.IsFavorite, new Position(
+                        double.Parse(pinModel.Latitude), double.Parse(pinModel.Longitude)));
             }
 
             return pinViewModel;

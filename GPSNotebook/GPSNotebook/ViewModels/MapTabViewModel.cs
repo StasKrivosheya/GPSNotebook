@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -36,14 +35,12 @@ namespace GPSNotebook.ViewModels
             IsActiveChanged += OnTabActivated;
         }
 
-        #region -- Public properties --
-
-        private ObservableCollection<PinViewModel> _pinsCollection;
-        public new ObservableCollection<PinViewModel> PinsCollection
+        ~MapTabViewModel()
         {
-            get => _pinsCollection;
-            set => SetProperty(ref _pinsCollection, value);
+            IsActiveChanged -= OnTabActivated;
         }
+
+        #region -- Public properties --
 
         private CameraPosition _myCameraPosition;
         public CameraPosition MyCameraPosition
@@ -141,12 +138,7 @@ namespace GPSNotebook.ViewModels
             var pinModels = await _pinService.GetPinsListAsync(
                 pin => pin.UserId == _authorizationService.GetCurrentUserId);
 
-            List<PinViewModel> pins = new List<PinViewModel>();
-
-            foreach (var pinModel in pinModels)
-            {
-                pins.Add(pinModel.ToPinViewModel());
-            }
+            var pins = pinModels.Select(x => x.ToPinViewModel());
 
             PinsCollection = new ObservableCollection<PinViewModel>(pins);
             PinsToShow = new ObservableCollection<PinViewModel>(PinsCollection.Where(pin => pin.IsFavorite));
@@ -168,9 +160,9 @@ namespace GPSNotebook.ViewModels
                        p.Longitude == selectedPinLongitude)).First();
 
             var parameters = new NavigationParameters
-                {
-                    {nameof(PinViewModel), pinModelForPopUp}
-                };
+            {
+                { nameof(PinViewModel), pinModelForPopUp }
+            };
 
             await NavigationService.NavigateAsync(nameof(PinInfoPopupPage), animated: true, useModalNavigation: true, parameters: parameters);
         }

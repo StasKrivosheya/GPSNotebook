@@ -256,7 +256,7 @@ namespace GPSNotebook.ViewModels
             {
                 var photo = await MediaPicker.CapturePhotoAsync(new MediaPickerOptions
                 {
-                    Title = $"ProfileBook{DateTime.Now:dd-MM-yyyy_hh.mm.ss}.jpg"
+                    Title = $"GPSNotebook{DateTime.Now:dd-MM-yyyy_hh.mm.ss}.jpg"
                 });
 
                 if (photo != null)

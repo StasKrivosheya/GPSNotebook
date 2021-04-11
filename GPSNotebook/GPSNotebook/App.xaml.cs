@@ -76,5 +76,7 @@ namespace GPSNotebook
         }
 
         #endregion
+
+        public static T Resolve<T>() => (Application.Current as App).Container.Resolve<T>();
     }
 }

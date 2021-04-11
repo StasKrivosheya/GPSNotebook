@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -33,6 +32,11 @@ namespace GPSNotebook.ViewModels
             _authorizationService = authorizationService;
 
             IsActiveChanged += OnTabActivated;
+        }
+
+        ~PinsListTabViewModel()
+        {
+            IsActiveChanged -= OnTabActivated;
         }
 
         #region -- Public Properies --
@@ -83,10 +87,11 @@ namespace GPSNotebook.ViewModels
 
             if (args.PropertyName == nameof(SelectedPin) && SelectedPin != null)
             {
-                NavigationParameters parameters = new NavigationParameters
+                var parameters = new NavigationParameters
                 {
                     { nameof(CameraPosition), new CameraPosition(SelectedPin.Position, Constants.DEFAULT_CAMERA_ZOOM) }
                 };
+
                 SelectedPin = null;
                 NavigationService.SelectTabAsync(nameof(MapTab), parameters);
             }
@@ -133,12 +138,7 @@ namespace GPSNotebook.ViewModels
             var pinModels = await _pinService.GetPinsListAsync(
                 pin => pin.UserId == _authorizationService.GetCurrentUserId);
 
-            List<PinViewModel> pins = new List<PinViewModel>();
-
-            foreach (var pinModel in pinModels)
-            {
-                pins.Add(pinModel.ToPinViewModel());
-            }
+            var pins = pinModels.Select(x => x.ToPinViewModel());
 
             PinsCollection = new ObservableCollection<PinViewModel>(pins);
 

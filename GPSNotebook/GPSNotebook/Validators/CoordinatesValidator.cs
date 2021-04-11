@@ -2,7 +2,7 @@
 
 namespace GPSNotebook.Validators
 {
-    class CoordinatesValidator
+    public class CoordinatesValidator
     {
         #region -- Private constants --
 
