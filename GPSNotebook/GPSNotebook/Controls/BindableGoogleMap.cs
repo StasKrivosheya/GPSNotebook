@@ -26,7 +26,11 @@ namespace GPSNotebook.Controls
         ~BindableGoogleMap()
         {
             MapClicked -= OnMapClicked;
-            PinsSource.CollectionChanged -= OnPinsSourceCollectionChanged;
+
+            if (PinsSource != null)
+            {
+                PinsSource.CollectionChanged -= OnPinsSourceCollectionChanged;
+            }
         }
 
         #region -- Public Properties --
@@ -101,10 +105,13 @@ namespace GPSNotebook.Controls
 
             if (propertyName == nameof(MyCameraPosition))
             {
-                var newCamPos = new CameraPosition(MyCameraPosition.Target, MyCameraPosition.Zoom);
-                var cameraUpdate = CameraUpdateFactory.NewCameraPosition(newCamPos);
+                if (MyCameraPosition != null)
+                {
+                    var newCamPos = new CameraPosition(MyCameraPosition.Target, MyCameraPosition.Zoom);
+                    var cameraUpdate = CameraUpdateFactory.NewCameraPosition(newCamPos);
 
-                await AnimateCamera(cameraUpdate);
+                    await AnimateCamera(cameraUpdate);
+                }
             }
 
             if (propertyName == nameof(PinMarker))

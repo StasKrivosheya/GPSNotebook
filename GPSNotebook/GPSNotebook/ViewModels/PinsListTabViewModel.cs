@@ -34,11 +34,6 @@ namespace GPSNotebook.ViewModels
             IsActiveChanged += OnTabActivated;
         }
 
-        ~PinsListTabViewModel()
-        {
-            IsActiveChanged -= OnTabActivated;
-        }
-
         #region -- Public Properies --
 
         private bool _isListVisible = true;
@@ -81,7 +76,7 @@ namespace GPSNotebook.ViewModels
 
         #region -- Overrides --
 
-        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        protected override async void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
 
@@ -93,28 +88,49 @@ namespace GPSNotebook.ViewModels
                 };
 
                 SelectedPin = null;
-                NavigationService.SelectTabAsync(nameof(MapTab), parameters);
+                await NavigationService.SelectTabAsync(nameof(MapTab), parameters);
             }
 
             if (args.PropertyName == nameof(SearchText))
             {
                 if (string.IsNullOrEmpty(SearchText))
                 {
-                    PinsToShow = new ObservableCollection<PinViewModel>(PinsCollection);
+                    if (PinsCollection != null)
+                    {
+                        PinsToShow = new ObservableCollection<PinViewModel>(PinsCollection);
+                    }
+                    else
+                    {
+                        PinsToShow = new ObservableCollection<PinViewModel>();
+                    }
                 }
                 else
                 {
                     var preparedSearchText = SearchText.ToLower().Trim();
 
-                    var result = PinsCollection
+                    var result = PinsCollection?
                         .Where(pin => pin.Name.ToLower().Contains(preparedSearchText) ||
                                       (!string.IsNullOrEmpty(pin.Description) && pin.Description.ToLower().Contains(preparedSearchText)) ||
                                       pin.Latitude.ToLower().Contains(preparedSearchText) ||
                                       pin.Longitude.ToLower().Contains(preparedSearchText));
 
-                    PinsToShow = new ObservableCollection<PinViewModel>(result);
+                    if (result != null)
+                    {
+                        PinsToShow = new ObservableCollection<PinViewModel>(result);
+                    }
+                    else
+                    {
+                        PinsToShow = new ObservableCollection<PinViewModel>();
+                    }
                 }
             }
+        }
+
+        public override void Destroy()
+        {
+            IsActiveChanged -= OnTabActivated;
+
+            base.Destroy();
         }
 
         #endregion

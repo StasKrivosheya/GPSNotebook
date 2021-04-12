@@ -35,11 +35,6 @@ namespace GPSNotebook.ViewModels
             IsActiveChanged += OnTabActivated;
         }
 
-        ~MapTabViewModel()
-        {
-            IsActiveChanged -= OnTabActivated;
-        }
-
         #region -- Public properties --
 
         private CameraPosition _myCameraPosition;
@@ -119,6 +114,13 @@ namespace GPSNotebook.ViewModels
                     PinsToShow = new ObservableCollection<PinViewModel>(result);
                 }
             }
+        }
+
+        public override void Destroy()
+        {
+            IsActiveChanged -= OnTabActivated;
+
+            base.Destroy();
         }
 
         #endregion

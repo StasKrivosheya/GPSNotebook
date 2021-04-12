@@ -30,11 +30,11 @@ namespace GPSNotebook.ViewModels
 
         #region -- Private Helpers --
 
-        private void ExecuteLogOutCommand()
+        private async void ExecuteLogOutCommand()
         {
             _authorizationService.UnAuthorize();
+            await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInPage)}");
 
-            NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInPage)}");
         }
 
         #endregion
