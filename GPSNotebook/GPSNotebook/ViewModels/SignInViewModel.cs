@@ -125,7 +125,7 @@ namespace GPSNotebook.ViewModels
 
         private void UpdateSignInButtonState()
         {
-            IsButtonEnabled = !string.IsNullOrEmpty(Mail) &&
+            IsButtonEnabled = !string.IsNullOrWhiteSpace(Mail) &&
                               !string.IsNullOrEmpty(Password);
         }
 

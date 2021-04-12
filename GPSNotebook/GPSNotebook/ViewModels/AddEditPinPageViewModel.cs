@@ -99,9 +99,9 @@ namespace GPSNotebook.ViewModels
         }
 
         public bool IsAllInputsFilled =>
-            !string.IsNullOrEmpty(Name) &&
-            !string.IsNullOrEmpty(Latitude) &&
-            !string.IsNullOrEmpty(Longitude);
+            !string.IsNullOrWhiteSpace(Name) &&
+            !string.IsNullOrWhiteSpace(Latitude) &&
+            !string.IsNullOrWhiteSpace(Longitude);
 
         private bool _wasLocationGranted;
         public bool WasLocationGranted

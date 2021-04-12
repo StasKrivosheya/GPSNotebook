@@ -144,7 +144,7 @@ namespace GPSNotebook.ViewModels
 
         private void UpdateSignUpButtonState()
         {
-            var areAllEntriesFilled = !string.IsNullOrEmpty(_mail) &&
+            var areAllEntriesFilled = !string.IsNullOrWhiteSpace(_mail) &&
                                       !string.IsNullOrEmpty(_password) &&
                                       !string.IsNullOrEmpty(_confirmPassword);
 
