@@ -61,11 +61,83 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You must enter a name and coordinates before saving Pin!.
+        /// </summary>
+        internal static string AddEditPinEmtyFieldsErrorMsg {
+            get {
+                return ResourceManager.GetString("AddEditPinEmtyFieldsErrorMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong Latitude or Longitude. Please, check your inputs or select position on map..
+        /// </summary>
+        internal static string AddEditPinIvalidCoordinatesMsg {
+            get {
+                return ResourceManager.GetString("AddEditPinIvalidCoordinatesMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add new Pin.
+        /// </summary>
+        internal static string AddPinTitle {
+            get {
+                return ResourceManager.GetString("AddPinTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Camera.
+        /// </summary>
+        internal static string Camera {
+            get {
+                return ResourceManager.GetString("Camera", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose from:.
+        /// </summary>
+        internal static string ChooseFrom {
+            get {
+                return ResourceManager.GetString("ChooseFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to confirm password.
         /// </summary>
         internal static string ConfirmPasswordPlaceholder {
             get {
                 return ResourceManager.GetString("ConfirmPasswordPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        internal static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
             }
         }
         
@@ -79,11 +151,56 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        internal static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit existing Pin.
+        /// </summary>
+        internal static string EditPinTitle {
+            get {
+                return ResourceManager.GetString("EditPinTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Favorite.
+        /// </summary>
+        internal static string Favorite {
+            get {
+                return ResourceManager.GetString("Favorite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gallery.
+        /// </summary>
+        internal static string Gallery {
+            get {
+                return ResourceManager.GetString("Gallery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GPSNotebook.
         /// </summary>
         internal static string HomePageTitle {
             get {
                 return ResourceManager.GetString("HomePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong latitude or longitude!.
+        /// </summary>
+        internal static string InvalidCoordinates {
+            get {
+                return ResourceManager.GetString("InvalidCoordinates", resourceCulture);
             }
         }
         
@@ -124,11 +241,38 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is Favorite: .
+        /// </summary>
+        internal static string IsFavoriteText {
+            get {
+                return ResourceManager.GetString("IsFavoriteText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Latitude.
+        /// </summary>
+        internal static string Latitude {
+            get {
+                return ResourceManager.GetString("Latitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log Out.
         /// </summary>
         internal static string LogOutText {
             get {
                 return ResourceManager.GetString("LogOutText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Longitude.
+        /// </summary>
+        internal static string Longitude {
+            get {
+                return ResourceManager.GetString("Longitude", resourceCulture);
             }
         }
         
@@ -142,6 +286,15 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to search for favorite pin name.
+        /// </summary>
+        internal static string MapTabSearchPlaceholder {
+            get {
+                return ResourceManager.GetString("MapTabSearchPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Map.
         /// </summary>
         internal static string MapTabTitle {
@@ -151,11 +304,29 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to name.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         internal static string NamePlaceholder {
             get {
                 return ResourceManager.GetString("NamePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No pins added..
+        /// </summary>
+        internal static string NoPinsText {
+            get {
+                return ResourceManager.GetString("NoPinsText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not favorite.
+        /// </summary>
+        internal static string NotFavorite {
+            get {
+                return ResourceManager.GetString("NotFavorite", resourceCulture);
             }
         }
         
@@ -169,11 +340,47 @@ namespace GPSNotebook.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open Settings.
+        /// </summary>
+        internal static string OpenSettings {
+            get {
+                return ResourceManager.GetString("OpenSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to password.
         /// </summary>
         internal static string PasswordPlaceholder {
             get {
                 return ResourceManager.GetString("PasswordPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You denied this permission.
+        /// </summary>
+        internal static string PermissionNotGranted {
+            get {
+                return ResourceManager.GetString("PermissionNotGranted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete .
+        /// </summary>
+        internal static string PinDeletionConfirm {
+            get {
+                return ResourceManager.GetString("PinDeletionConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to name, description or coordinates....
+        /// </summary>
+        internal static string PinsListSearchPlaceholder {
+            get {
+                return ResourceManager.GetString("PinsListSearchPlaceholder", resourceCulture);
             }
         }
         
@@ -201,6 +408,24 @@ namespace GPSNotebook.Resources {
         internal static string RegisterFailedTitle {
             get {
                 return ResourceManager.GetString("RegisterFailedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is favorite: .
+        /// </summary>
+        internal static string SetFavorite {
+            get {
+                return ResourceManager.GetString("SetFavorite", resourceCulture);
             }
         }
         
@@ -264,6 +489,15 @@ namespace GPSNotebook.Resources {
         internal static string SignUpTitle {
             get {
                 return ResourceManager.GetString("SignUpTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Try one more time, or visit settings to manually allow denied permissions..
+        /// </summary>
+        internal static string SuggestVisitingSettings {
+            get {
+                return ResourceManager.GetString("SuggestVisitingSettings", resourceCulture);
             }
         }
     }

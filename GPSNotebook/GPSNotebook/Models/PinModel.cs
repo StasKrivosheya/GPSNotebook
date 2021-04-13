@@ -19,5 +19,7 @@ namespace GPSNotebook.Models
         public string Longitude { get; set; }
 
         public bool IsFavorite { get; set; }
+
+        public string PinImagePath { get; set; }
     }
 }

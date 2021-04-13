@@ -114,6 +114,7 @@ namespace GPSNotebook.ViewModels
                 await UserDialogs.Instance.AlertAsync(Resource.SignInErrorMessage,
                     Resource.SignInErrorTitle,
                     Resource.OkText);
+
                 Password = string.Empty;
             }
         }
@@ -124,7 +125,7 @@ namespace GPSNotebook.ViewModels
 
         private void UpdateSignInButtonState()
         {
-            IsButtonEnabled = !string.IsNullOrEmpty(Mail) &&
+            IsButtonEnabled = !string.IsNullOrWhiteSpace(Mail) &&
                               !string.IsNullOrEmpty(Password);
         }
 

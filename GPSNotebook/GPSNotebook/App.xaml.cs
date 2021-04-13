@@ -1,4 +1,5 @@
 ﻿using GPSNotebook.Services.Authorization;
+using GPSNotebook.Services.Permissions;
 using GPSNotebook.Services.PinService;
 using GPSNotebook.Services.Repository;
 using GPSNotebook.Services.Settings;
@@ -7,6 +8,7 @@ using GPSNotebook.ViewModels;
 using GPSNotebook.Views;
 using Prism;
 using Prism.Ioc;
+using Prism.Plugin.Popups;
 using Prism.Unity;
 using Xamarin.Forms;
 
@@ -40,6 +42,9 @@ namespace GPSNotebook
             containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
             containerRegistry.RegisterInstance<IUserService>(Container.Resolve<UserService>());
             containerRegistry.RegisterInstance<IPinService>(Container.Resolve<PinService>());
+            containerRegistry.RegisterInstance<IPermissionsService>(Container.Resolve<PermissionsService>());
+
+            containerRegistry.RegisterPopupNavigationService();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
@@ -48,6 +53,8 @@ namespace GPSNotebook
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
             containerRegistry.RegisterForNavigation<MapTab, MapTabViewModel>();
             containerRegistry.RegisterForNavigation<PinsListTab, PinsListTabViewModel>();
+            containerRegistry.RegisterForNavigation<AddEditPinPage, AddEditPinPageViewModel>();
+            containerRegistry.RegisterForNavigation<PinInfoPopupPage, PinInfoPopupPageViewModel>();
         }
 
         protected override async void OnInitialized()
@@ -69,5 +76,7 @@ namespace GPSNotebook
         }
 
         #endregion
+
+        public static T Resolve<T>() => (Application.Current as App).Container.Resolve<T>();
     }
 }

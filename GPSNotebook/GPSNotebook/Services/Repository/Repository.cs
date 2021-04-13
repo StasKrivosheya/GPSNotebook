@@ -49,14 +49,13 @@ namespace GPSNotebook.Services.Repository
         public async Task<int> InsertItemAsync<T>(T item) where T : IEntityBase, new()
         {
             int result;
+
             try
             {
-                // exception will occur if we try to add a user that already exists (unique attribute)
                 result = await _database.InsertAsync(item);
             }
-            catch (Exception e)
+            catch (SQLiteException)
             {
-                Console.WriteLine(e);
                 result = -1;
             }
 

@@ -117,14 +117,53 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddEditPinEmtyFieldsErrorMsg" xml:space="preserve">
+    <value>You must enter a name and coordinates before saving Pin!</value>
+  </data>
+  <data name="AddEditPinIvalidCoordinatesMsg" xml:space="preserve">
+    <value>Wrong Latitude or Longitude. Please, check your inputs or select position on map.</value>
+  </data>
+  <data name="AddPinTitle" xml:space="preserve">
+    <value>Add new Pin</value>
+  </data>
+  <data name="Camera" xml:space="preserve">
+    <value>Camera</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ChooseFrom" xml:space="preserve">
+    <value>Choose from:</value>
+  </data>
   <data name="ConfirmPasswordPlaceholder" xml:space="preserve">
     <value>confirm password</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
   </data>
   <data name="DifferentPasswordError" xml:space="preserve">
     <value>Passwords are different</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditPinTitle" xml:space="preserve">
+    <value>Edit existing Pin</value>
+  </data>
+  <data name="Favorite" xml:space="preserve">
+    <value>Favorite</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Gallery</value>
+  </data>
   <data name="HomePageTitle" xml:space="preserve">
     <value>GPSNotebook</value>
+  </data>
+  <data name="InvalidCoordinates" xml:space="preserve">
+    <value>Wrong latitude or longitude!</value>
   </data>
   <data name="InvalidMailMessage" xml:space="preserve">
     <value>Wrong Mail!</value>
@@ -138,23 +177,53 @@
   <data name="InvalidPasswordTitle" xml:space="preserve">
     <value>Invalid Password</value>
   </data>
+  <data name="IsFavoriteText" xml:space="preserve">
+    <value>Is Favorite: </value>
+  </data>
+  <data name="Latitude" xml:space="preserve">
+    <value>Latitude</value>
+  </data>
   <data name="LogOutText" xml:space="preserve">
     <value>Log Out</value>
   </data>
+  <data name="Longitude" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
   <data name="MailPlaceholder" xml:space="preserve">
     <value>e-mail</value>
+  </data>
+  <data name="MapTabSearchPlaceholder" xml:space="preserve">
+    <value>search for favorite pin name</value>
   </data>
   <data name="MapTabTitle" xml:space="preserve">
     <value>Map</value>
   </data>
   <data name="NamePlaceholder" xml:space="preserve">
-    <value>name</value>
+    <value>Name</value>
+  </data>
+  <data name="NoPinsText" xml:space="preserve">
+    <value>No pins added.</value>
+  </data>
+  <data name="NotFavorite" xml:space="preserve">
+    <value>Not favorite</value>
   </data>
   <data name="OkText" xml:space="preserve">
     <value>Ok</value>
   </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Open Settings</value>
+  </data>
   <data name="PasswordPlaceholder" xml:space="preserve">
     <value>password</value>
+  </data>
+  <data name="PermissionNotGranted" xml:space="preserve">
+    <value>You denied this permission</value>
+  </data>
+  <data name="PinDeletionConfirm" xml:space="preserve">
+    <value>Are you sure you want to delete </value>
+  </data>
+  <data name="PinsListSearchPlaceholder" xml:space="preserve">
+    <value>name, description or coordinates...</value>
   </data>
   <data name="PinsListTabTitle" xml:space="preserve">
     <value>Pins</value>
@@ -164,6 +233,12 @@
   </data>
   <data name="RegisterFailedTitle" xml:space="preserve">
     <value>Register failed</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SetFavorite" xml:space="preserve">
+    <value>Is favorite: </value>
   </data>
   <data name="SignInButton" xml:space="preserve">
     <value>Sign In</value>
@@ -185,5 +260,8 @@
   </data>
   <data name="SignUpTitle" xml:space="preserve">
     <value>Users Sign Up</value>
+  </data>
+  <data name="SuggestVisitingSettings" xml:space="preserve">
+    <value>Try one more time, or visit settings to manually allow denied permissions.</value>
   </data>
 </root>

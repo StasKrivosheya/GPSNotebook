@@ -5,15 +5,42 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:controls="clr-namespace:GPSNotebook.Controls;assembly=GPSNotebook"
+             xmlns:forms="clr-namespace:dotMorten.Xamarin.Forms;assembly=dotMorten.Xamarin.Forms.AutoSuggestBox"
              x:Class="GPSNotebook.Views.MapTab"
              Title="{x:Static resource:Resource.MapTabTitle}">
     <ContentPage.Content>
         <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <controls:BindableGoogleMap VerticalOptions="FillAndExpand" PinsSource="{Binding PinsList}"/>
+            <forms:AutoSuggestBox Grid.Row="0"
+                                  ItemsSource="{Binding PinsToShow}"
+                                  DisplayMemberPath="Name"
+                                  TextMemberPath="Name"
+                                  Text="{Binding SearchText, Mode=TwoWay}"
+                                  PlaceholderText="{x:Static resource:Resource.MapTabSearchPlaceholder}"
+                                  Margin="25, 0" >
+                <forms:AutoSuggestBox.Behaviors>
+                    <prism:EventToCommandBehavior EventName="SuggestionChosen"
+                                                  Command="{Binding SuggestionChosenCommand}"
+                                                  EventArgsParameterPath="SelectedItem"/>
+                </forms:AutoSuggestBox.Behaviors>
+            </forms:AutoSuggestBox>
+
+            <controls:BindableGoogleMap Grid.Row="1"
+                                        VerticalOptions="FillAndExpand"
+                                        PinsSource="{Binding PinsToShow}"
+                                        MyCameraPosition="{Binding MyCameraPosition}"
+                                        MyLocationEnabled="{Binding WasLocationGranted}"
+                                        SelectedPin="{Binding SelectedPin}">
+                <controls:BindableGoogleMap.Behaviors>
+                    <prism:EventToCommandBehavior EventName="InfoWindowClicked"
+                                                  Command="{Binding InfoWindowClickedCommand}"
+                                                  EventArgsParameterPath="Pin"/>
+                </controls:BindableGoogleMap.Behaviors>
+            </controls:BindableGoogleMap>
 
         </Grid>
     </ContentPage.Content>
